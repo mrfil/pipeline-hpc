@@ -1,0 +1,16 @@
+Bootstrap: docker
+From: python:3.9
+
+%runscript
+
+    exec /usr/local/bin/python "$@"
+
+
+%post
+
+    apt-get update
+    apt-get install -y vim
+    apt-get install -y pip3
+    mkdir -p /scratch
+    mkdir -p /local-scratch
+    pip3 install numpy, pandas

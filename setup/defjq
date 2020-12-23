@@ -1,0 +1,11 @@
+  
+Bootstrap: ubuntu
+From: ubuntu:18.04
+
+%post
+    apt-get update
+    apt-get install -y vim
+    apt-get install -y jq
+    mkdir -p /scratch
+    mkdir -p /local-scratch
+    
