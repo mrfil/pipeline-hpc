@@ -1,0 +1,1 @@
+qi_1,qi_2,rpve_csf,rpve_gm,rpve_wm,snr_csf,snr_gm,snr_wm,snr_total,snrd_csf,snrd_gm,snrd_wm,snrd_total,tpm_overlap_csf,tpm_overlap_gm,tpm_overlap_wm,wm2max,cjv,cnr,qi2,efc,fber,fwhm_avg,fwhm_x,fwhm_y,fwhm_z,icvs_csf,icvs_gm,icvs_wm

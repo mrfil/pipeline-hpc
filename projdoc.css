@@ -1,0 +1,29 @@
+proc_log {
+  background-color: #004f8e;
+}
+
+proc {
+  display: block;
+  width: 700px;
+  padding: 10px;
+  margin: 10px;
+  border: 5px groove #000000;
+  background-color: #F4EECA;
+}
+
+title {
+  display: block;
+  color: #4CAF50;
+  font-family: Verdana, Arial;
+  font-size: 13pt;
+  text-align: left;
+}
+
+source, version, exec_date, description, conversion_tool {
+  display: block;
+  color: #6388A0;
+  font-family: Verdana, Arial;
+  font-size: 12pt;
+  text-indent: 14px;
+  text-align: left;
+}

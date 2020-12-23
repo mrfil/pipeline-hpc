@@ -1,0 +1,1 @@
+dvars_nstd,dvars_std,dvars_vstd,tsnr,fd_mean,fd_num,fd_perc,gsr_x,gsr_y,gcor,aor,aqi,dummy,efc,fber,fwhm_avg,fwhm_x,fwhm_y,fwhm_z,snr,spikes_num
