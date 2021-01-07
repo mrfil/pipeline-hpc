@@ -11,16 +11,16 @@ based=$5
 NOW=$(date +"%m-%d-%Y-%T")
 
 IMGDIR=${based}/singularity_images
-projDir=${based}/beta/testing/${project}
+projDir=${based}/terra/testing/${project}
 projPrepDir=${projDir}/bids/derivatives/fmriprep
 projXCPdir=${projDir}/bids/derivatives/xcp/${session}/xcp_minimal_func/${subject}
-repDir=${based}/beta/data_qc
+repDir=${based}/terra/data_qc
 mkdir $repDir/${project}
 
 chmod 777 -R ${projDir}/bids/derivatives
 
-CACHESING=${based}/beta/scratch/scache
-TMPSING=${based}/beta/scratch/stmp
+CACHESING=${based}/terra/scratch/scache
+TMPSING=${based}/terra/scratch/stmp
 
 if [ "$step" == "mriqc" ];
 then
