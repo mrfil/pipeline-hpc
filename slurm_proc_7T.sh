@@ -359,7 +359,7 @@ else
 		${scripts}/pdf_printer.sh ${projID} ${subject} ${sesname} QSIprepRecon ${based}
 	fi
 fi
-${scripts}/pipeline_collate.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t beta
+${scripts}/pipeline_collate.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t terra
 mkdir ${bids_out}/${project}
 mv ${tmpdir}/bids ${bids_out}/${project} 
 
