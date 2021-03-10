@@ -1,6 +1,7 @@
 function mrtrix_nbs(partID,session)
 %%% opens .mat output from QSIprep multishell recon
 datadir='/data/';
+%datadir='/shared/mrfil-data/pcamach2/MBB/bids/derivatives/qsirecon/'
 msmtconnectome = strcat(datadir,partID,"/",session,"/dwi/",partID,"_",session,"_run-1_space-T1w_desc-preproc_space-T1w_msmtconnectome.mat");
 load(msmtconnectome);
 

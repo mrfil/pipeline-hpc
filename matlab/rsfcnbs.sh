@@ -5,7 +5,7 @@
 # bind directories for data and toolboxes on run, then specify their paths in this script
 # bind working directory for functions
 #
-# singularity run --bind /local/path/to/spm12:/toolbox,/local/path/to/workingDirectory:/work,/local/path/to/bctoolbox:/bctoolbox,/local/path/to/fcon:/datain matlab-R2019a.sif rsfcnbs.sh 'xcp_minimal_func_aroma' 'sub-SUB001' 
+# singularity run --bind /local/path/to/spm12:/toolbox,/local/path/to/workingDirectory:/work,/local/path/to/bctoolbox:/bctoolbox,/shared/mrfil-data/pcamach2/fcon_dev:/datain matlab-R2019a.sif rsfcnbs.sh 'xcp_minimal_func_aroma' 'sub-CUGB108' 
 
 
 #cd /work
