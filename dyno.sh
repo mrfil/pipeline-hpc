@@ -3,7 +3,7 @@
 #SBATCH --job-name=dcm2all
 #SBATCH --output=dcm2all_A_hdc0.6.txt
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=32:00:00
+#SBATCH --time=48:00:00
 
 proj=$2
 based=$3
