@@ -1,0 +1,22 @@
+Bootstrap: docker
+From: python:3.8
+
+%runscript
+
+    exec /usr/local/bin/python "$@"
+
+
+%post
+
+    apt-get update
+    apt-get install -y vim nano git ffmpeg libsm6 libxext6 libx11-xcb-dev xcb g++ qtcreator qtdeclarative5-dev build-essential libgl1-mesa-dev
+    pip3 install pandas
+    pip3 install numpy
+    pip3 install ripser
+    pip3 install seaborn
+    pip3 install matplotlib
+    pip3 install pydicom
+    pip3 install bidscoin
+    mkdir -p /scratch
+    mkdir -p /local-scratch
+    
