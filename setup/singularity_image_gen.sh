@@ -16,11 +16,13 @@ sudo singularity build heudiconv0.6.simg docker://nipy/heudiconv:0.6.0
 sudo singularity build fmriprep-20.2.1.sif docker://nipreps/fmriprep:20.2.1
 sudo singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
 sudo singularity build qsiprep-v0.12.2.sif docker://pennbbl/qsiprep:0.12.2
+sudo singularity build bidsphysio.sif docker://cbinyu/bidsphysio
 
 # See README.md for more information on 
 #provide def files for ubuntu-jq, python3
 sudo SINGULARITY_NOHTTPS=1 singularity build ubuntu-jq-0.1.sif defjq
 sudo SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
+sudo SINGULARITY_NOHTTPS=1 singularity build bidscoin.sif bidscoindef
 
 #Start Docker registry for localhost
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
