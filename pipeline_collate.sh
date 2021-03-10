@@ -22,6 +22,8 @@ fmriprepDir=${projDir}/bids/derivatives/fmriprep/${subject}/${session}
 xcpDir=${projDir}/bids/derivatives/xcp/${session}
 qsiprepDir=${projDir}/bids/derivatives/qsiprep/${subject}/${session}/dwi
 qsireconDir=${projDir}/bids/derivatives/qsirecon/${subject}/${session}/dwi
+#dtiDir=${projDir}/bids/derivatives/dtipipeline/${subject}/${session}/Analyze/Tracking
+#strucconDir=${projDir}/bids/derivatives/structconpipeline/ResStructConn/${subject}/${session}/Conn84
 scriptsDir=${based}/${version}/scripts
 
 
@@ -68,6 +70,7 @@ then
 fi
 
 #get quality reports
+#cp ${xcpDir}/xcp_minimal_func/${subject}/*quality.csv ${outputDir}/xcp_func_quality_orig.csv
 cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_fc36p.csv ${outputDir}/xcp_func_quality_orig.csv
 cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_despike.csv ${outputDir}/xcp_despike_quality_orig.csv
 cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_scrub.csv ${outputDir}/xcp_scrub_quality_orig.csv
@@ -121,6 +124,17 @@ SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cl
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_power264nbs_table_aroma.csv /data/${subject}_${session}_power264nbs_table_aroma.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_aal116nbs_table_aroma.csv /data/${subject}_${session}_aal116nbs_table_aroma.csv
 
+#if [ -d "${strucconDir}" ];
+#then
+#	cp ${dtiDir}/${subject}_mridti_results.txt ${outputDir}/${subject}_mridti_results.csv
+#	cp ${strucconDir}/scfsl_nbs_${subject}.txt ${outputDir}/scfsl_nbs_${subject}.csv
+#	cp ${strucconDir}/${subject}_scfsl_nbs_rois.txt ${outputDir}/${subject}_scfsl_nbs_rois.csv
+#
+#	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/scfsl_nbs_${subject}.csv /data/scfsl_nbs_${subject}_${session}.csv
+#else
+#	echo "no scfsl detected"
+#fi
+
 #sub-MBB005_ses-A_run-1_desc-ImageQC_dwi.csv
 cp ${qsiprepDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv ${outputDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv
 cp ${qsireconDir}/qsi_nbs_${subject}_aal116.txt ${outputDir}/${subject}_${session}_nbs_qsi_aal116.csv
@@ -167,7 +181,12 @@ paste -d, tmpnbs9.csv ${subject}_${session}_desikanKillianynbs_table_aroma.csv >
 paste -d, tmpnbs10.csv ${subject}_${session}_power264nbs_table_aroma.csv > tmpnbs11.csv
 paste -d, tmpnbs11.csv ${subject}_${session}_aal116nbs_table_aroma.csv > tmpnbs12.csv
 
-if [ -d "${qsiprepDir}" ];
+if [ -d "${strucconDir}" ];
+then 
+    paste -d, tmpnbs12.csv ${subject}_mridti_results.txt > tmp10.csv
+    paste -d, tmp10.csv scfsl_nbs_${subject}_${session}.csv > tmpfinal.csv
+
+elif [ -d "${qsiprepDir}" ];
 then
     paste -d, tmpnbs12.csv ${subject}_${session}_run-1_desc-ImageQC_dwi.csv > tmpnbs13.csv
     paste -d, tmpnbs13.csv ${subject}_${session}_nbs_qsi_aal116.csv > tmpnbs14.csv

@@ -15,7 +15,7 @@ while getopts :p:s:z:m:f:l:b:t: option; do
 done
 ## takes project, subject, and session as inputs
 
-pilotdir=${based}/original_location_of_images_from_XNAT
+pilotdir=${based}/testing
 IMAGEDIR=${based}/singularity_images
 tmpdir=${based}/${version}/testing
 scripts=${based}/${version}/scripts
@@ -42,16 +42,8 @@ echo "${CLEANSESSION: -1}"
 session="${CLEANSESSION: -1}"
 echo ${session}
 project=${CLEANPROJECT}
-mkdir -p ${tmpdir}/${project}/${CLEANSUBJECT}/${session}
-cp -R ${pilotdir}/${DIR} ${tmpdir}/${project}/${CLEANSUBJECT}/${session}
-
-cd ${tmpdir}
-if [ -d "${tmpdir}/${project}/${CLEANSUBJECT}/${session}/SCANS" ]; 
-then
-	echo "no need to copy"
-else
-cp -R ${tmpdir}/${project}/${CLEANSUBJECT}/${CLEANSESSION}/* ${tmpdir}/${project}/${CLEANSUBJECT}/${session}
-fi
+#mkdir -p ${tmpdir}/${project}/${CLEANSUBJECT}/${session}
+#cp -R ${tmpdir}/${DIR} ${tmpdir}/${project}/${CLEANSUBJECT}/${session}
 
 subject="sub-"${CLEANSUBJECT}
 sesname="ses-"${session}
@@ -88,7 +80,7 @@ then
 
 	ses=${sesname:4}
 	sub=${subject:4}
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}:/datain $IMAGEDIR/heudiconv0.6.simg heudiconv -d /datain/{subject}/{session}/*/scans/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids -s ${sub} -ss ${ses} -c dcm2niix -b
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}:/datain $IMAGEDIR/heudiconv0.6.simg heudiconv -d /datain/{subject}/{session}/scans/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids -s ${sub} -ss ${ses} -c dcm2niix -b
 	chmod 777 -R ${projDir}/bids
 	rm -rf __pycache__
 
@@ -108,7 +100,7 @@ then
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "$NOW" >> ${scripts}/timer.txt
 
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv --bind ${projDir}/bids:/data --bind ${projDir}/bids/derivatives/mriqc:/out $IMAGEDIR/mriqc-0.15.1.sif /data /out participant --participant-label ${sub} --session-id ${ses} --fft-spikes-detector --despike --no-sub
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv --bind ${projDir}/bids:/data --bind ${projDir}/bids/derivatives/mriqc:/out $IMAGEDIR/mriqc-0.16.0.sif /data /out participant --participant-label ${sub} --session-id ${ses} --fft-spikes-detector --despike --no-sub
 	chmod 2777 -R ${projDir}/bids/derivatives/mriqc
 
 	NOW=$(date +"%m-%d-%Y-%T")
@@ -141,15 +133,13 @@ else
 	${scripts}/project_doc.sh ${project} ${subject} ${sesname} "heudiconv" "yes"
 	ses=${sesname:4}
 	sub=${subject:4}
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${projDir}:/datain ${IMAGEDIR}/heudiconv0.6.simg heudiconv -d /datain/{subject}/{session}/*/*/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids -s ${sub} -ss ${ses} -c dcm2niix -b --overwrite
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${projDir}:/datain ${IMAGEDIR}/heudiconv-0.9.0.sif heudiconv -d /datain/{subject}/{session}/*/SCANS/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids -s ${sub} -ss ${ses} -c dcm2niix -b --overwrite --minmeta
 	chmod 2777 -R ${projDir}/bids
-	rm -rf __pycache__
-	rm -rf $CACHESING/*
-	rm -rf $TMPSING/*
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "HeuDiConv finished $NOW" >> ${scripts}/fulltimer.txt
 
+	#jsoncrawler.sh runs once, for all sessions
 	if [ "${fieldmaps}" == "yes" ];
 	then
 	    SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}:/data,${scripts}:/scripts ${IMAGEDIR}/ubuntu-jq-0.1.sif /scripts/jsoncrawler.sh /data/bids ${sesname} ${subject}
@@ -158,6 +148,17 @@ else
 	rm ${projDir}/bids/derivatives/${subject}/${sesname}/tmp
 	rm ${projDir}/bids/derivatives/${subject}/${sesname}/test.txt	
 
+	
+	dirs=$(ls ${projDir}/${sub}/${ses}/*/SCANS/*/*/*secondary*xml)
+	dirp=${dirs%/DICOM/*secondary*xml}
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${scripts}:/scripts,${dirp}:/datain ${IMAGEDIR}/bidscoin.sif python /scripts/detectphysiolog.py
+	physdir=$(ls ${projDir}/${sub}/${ses}/*/SCANS/*/*/*physio*dcm)
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}/bids/${subject}/${sesname}/func:/datadir,${physdir}:/datain/${subject}_${sesname}_task-rest_dir-PA_run-1_physio.dcm ${IMAGEDIR}/bidsphysio.sif physio2bidsphysio --infile /datain/${subject}_${sesname}_task-rest_dir-PA_run-1_physio.dcm --bidsprefix /datadir/${subject}_${sesname}_task-rest_dir-PA_run-1 
+		
+	chmod 777 -R ${projDir}/bids/${subject}/${sesname}
+	mv ${projDir}/bids/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_recording-external_trigger_physio.json ${projDir}/bids/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_recording-externaltrigger_physio.json
+	mv ${projDir}/bids/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_recording-external_trigger_physio.tsv.gz ${projDir}/bids/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_recording-externaltrigger_physio.tsv.gz
+	echo "*_physio.*" > ${projDir}/bids/.bidsignore
 	mkdir ${based}/${version}/output/${project}
 
 	mkdir ${projDir}/bids/derivatives
@@ -172,17 +173,15 @@ else
 	${scripts}/project_doc.sh ${project} ${subject} ${sesname} "mriqc" "no"
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "MRIQC started $NOW" >> ${scripts}/fulltimer.txt
-
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --bind ${projDir}/bids:/data,${projDir}/bids/derivatives/mriqc:/out $IMAGEDIR/mriqc-0.15.1.sif /data /out participant --participant-label ${sub} --session-id ${ses} --fft-spikes-detector --despike --no-sub
+	TEMPLATEFLOW_HOST_HOME=$IMAGEDIR/templateflow
+	export SINGULARITYENV_TEMPLATEFLOW_HOME="/templateflow"
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},${projDir}/bids:/data,${projDir}/bids/derivatives/mriqc:/out $IMAGEDIR/mriqc-0.16.1.sif /data /out participant --participant-label ${sub} --session-id ${ses} -v --fft-spikes-detector --despike --no-sub
 	chmod 2777 -R ${projDir}/bids/derivatives/mriqc
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "MRIQC finished $NOW" >> ${scripts}/fulltimer.txt
 
 	${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} mriqc ${based}
-
-	rm -rf ${TMPSING}/*
-	rm -rf ${CACHESING}/*
 	
 	mkdir ${dataqc}/${project}
 	cp -R ${projDir}/bids/derivatives/mriqc ${dataqc}/${project}/
@@ -192,22 +191,21 @@ else
 
 	#fmriprep
 	echo "Running fmriprep on $subject $sesname"
+	#add more details of fMRIPrep arguments if necessary
 
 	${scripts}/project_doc.sh ${project} ${subject} ${sesname} "fmriprep" "no"
 	if [ "${longitudinal}" == "yes" ];
 	then 
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind $IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 	elif [ "${longitudinal}" == "no" ];
 	then
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind $IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 	fi
 
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "fMRIPrep finished $NOW" >> ${scripts}/fulltimer.txt
 
-	rm -rf ${TMPSING}/*
-	rm -rf ${CACHESING}/*
 	chmod 2777 -R ${projDir}/bids/derivatives/fmriprep
 	
 	${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} fmriprep ${based}
@@ -239,6 +237,8 @@ else
 		chmod 2777 -R ${projDir}/bids/derivatives/xcp*
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/*quality.csv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/${subject}_${sesname}_quality_fc36p.csv
 		${scripts}/procd.sh ${project} xcp no ${subject} ${based}
+
+		#make different project_doc conditions for different xcpEngine dsns
 
 		${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} xcp36p ${based}
 
@@ -315,9 +315,6 @@ else
 		mkdir ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs
 		chmod 777 -R ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/*txt ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs/
-
-		rm -rf ${CACHESING}/*
-		rm -rf ${TMPSING}/*
 	
 	
 	if [ -d "${projDir}/bids/${subject}/${sesname}/dwi" ];
@@ -326,13 +323,15 @@ else
 		IMAGEDIR=${based}/singularity_images
 		scripts=${based}/${version}/scripts
 		projDir=${based}/${version}/testing/${project}
-		scachedir=${based}/${version}/scratch/scache/${project}/${sesname}
-		stmpdir=${based}/${version}/scratch/stmp/${project}/${sesname}
+		scachedir=${based}/${version}/scratch/scache/${project}/${subject}/${sesname}
+		stmpdir=${based}/${version}/scratch/stmp/${project}/${subject}/${sesname}
 
 		mkdir ${based}/${version}/scratch/scache/${project}
 		mkdir ${based}/${version}/scratch/stmp/${project}
-		mkdir ${based}/${version}/scratch/scache/${project}/${sesname}
-		mkdir ${based}/${version}/scratch/stmp/${project}/${sesname}
+		mkdir ${based}/${version}/scratch/scache/${project}/${subject}
+		mkdir ${based}/${version}/scratch/stmp/${project}/${subject}
+		mkdir ${scachedir}
+		mkdir ${stmpdir}
 		chmod 777 -R ${stmpdir}
 		chmod 777 -R ${scachedir}
 		NOW=$(date +"%m-%d-%Y-%T")
@@ -352,14 +351,15 @@ else
 		chmod 777 -R ${projDir}/bids/derivatives/qsirecon
 
 		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${scripts}/matlab:/work,${scripts}/2019_03_03_BCT:/bctoolbox,${projDir}/bids/derivatives/qsirecon:/data ${IMAGEDIR}/matlab-R2019a.sif /work/qsinbs.sh "$subject" "$sesname"
-
 	
 		${scripts}/pdf_printer.sh ${projID} ${subject} ${sesname} QSIprepRecon ${based}
+		rm -rf __pycache__
+		rm -rf $stmpdir/*
+		rm -rf $scachedir/*
 	fi
 fi
 ${scripts}/pipeline_collate.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t beta
-mkdir ${bids_out}/${project}
-mv ${tmpdir}/bids ${bids_out}/${project} 
-
+rm -rf __pycache__
+rm -rf $CACHESING/*
+rm -rf $TMPSING/*
 fi
-
