@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=dcm2all
-#SBATCH --output=dcm2all_A_hdc0.6.txt
+#SBATCH --job-name=dcm2all_A
+#SBATCH --output=dcm2all_A.txt
 #SBATCH --ntasks-per-node=1
 #SBATCH --time=48:00:00
 
