@@ -118,6 +118,20 @@ else
 	scripts=${based}/${version}/scripts
 
 	cd $projDir
+rm -rf ${projDir}/bids/derivatives/mriqc/*${subject}*
+rm -rf ${projDir}/bids/derivatives/mriqc/${subject}
+rm -rf ${projDir}/bids/derivatives/fmriprep/${subject} 
+rm -rf ${projDir}/bids/derivatives/fmriprep/*${subject}* 
+rm -rf ${projDir}/bids/derivatives/freesurfer/${subject} 
+rm -rf ${projDir}/bids/derivatives/xcp/${sesname}/xcp_despike/${subject} 
+rm -rf ${projDir}/bids/derivatives/xcp/${sesname}/xcp_scrub/${subject} 
+rm -rf ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject} 
+rm -rf ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject} 
+rm -rf ${projDir}/bids/derivatives/qsiprep/${subject}
+rm -rf ${projDir}/bids/derivatives/qsiprep/*${subject}* 
+rm -rf ${projDir}/bids/derivatives/qsirecon/${subject} 
+rm -rf ${projDir}/bids/derivatives/qsirecon/*${subject}* 
+rm -rf ../../output/${project}/${subject}/${sesname}
 
 	IMAGEDIR=${based}/singularity_images
 	CACHESING=${scachedir}/${project}_${subject}_${sesname}_dcm2rsfc
@@ -135,6 +149,9 @@ else
 	sub=${subject:4}
 	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${projDir}:/datain ${IMAGEDIR}/heudiconv-0.9.0.sif heudiconv -d /datain/{subject}/{session}/*/SCANS/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids -s ${sub} -ss ${ses} -c dcm2niix -b --overwrite --minmeta
 	chmod 2777 -R ${projDir}/bids
+	#rm -rf __pycache__
+	#rm -rf $CACHESING/*
+	#rm -rf $TMPSING/*
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "HeuDiConv finished $NOW" >> ${scripts}/fulltimer.txt
@@ -182,6 +199,9 @@ else
 	echo "MRIQC finished $NOW" >> ${scripts}/fulltimer.txt
 
 	${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} mriqc ${based}
+
+	#rm -rf ${TMPSING}/*
+	#rm -rf ${CACHESING}/*
 	
 	mkdir ${dataqc}/${project}
 	cp -R ${projDir}/bids/derivatives/mriqc ${dataqc}/${project}/
@@ -206,9 +226,15 @@ else
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "fMRIPrep finished $NOW" >> ${scripts}/fulltimer.txt
 
+	#rm -rf ${TMPSING}/*
+	#rm -rf ${CACHESING}/*
 	chmod 2777 -R ${projDir}/bids/derivatives/fmriprep
 	
 	${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} fmriprep ${based}
+
+	#ASHS
+	#export SINGULARITYENV_ASHS_ROOT=/opt/ashs/ashs-1.0.0
+	#SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${projDir}:/datain $IMAGEDIR/ashs-1.0.0.sif $SINGULARITYENV_ASHS_ROOT/bin/ashs_main.sh -a /opt/ashs/ashs_atlas_upennpmc_20161128 -g /datain/bids/${subject}/${sesname}/anat/${subject}_${sesname}_T1w.nii.gz -f /datain/bids/${subject}/${sesname}/anat/${subject}_${sesname}_acq-highreshippocampus_run-1_T2w.nii.gz -w /datain/bids/derivatives/ashs/${subject}/${sesname}
 
 	if [ -d "${projDir}/bids/${subject}/${sesname}/func" ];
         then
@@ -315,6 +341,9 @@ else
 		mkdir ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs
 		chmod 777 -R ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/*txt ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/fcon/nbs/
+
+		#rm -rf ${CACHESING}/*
+		#rm -rf ${TMPSING}/*
 	
 	
 	if [ -d "${projDir}/bids/${subject}/${sesname}/dwi" ];
@@ -337,7 +366,7 @@ else
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep started $NOW" >> ${scripts}/fulltimer.txt
 
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.12.2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.13.0RC2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 
 		chmod 777 -R ${projDir}/bids/derivatives/qsiprep
 		${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} QSIprep ${based}
@@ -345,21 +374,24 @@ else
 		echo "QSIprep finished $NOW" >> ${scripts}/fulltimer.txt
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep Recon started $NOW" >> ${scripts}/fulltimer.txt
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.12.2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.13.0RC2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep Recon finished $NOW" >> ${scripts}/fulltimer.txt
 		chmod 777 -R ${projDir}/bids/derivatives/qsirecon
 
 		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${scripts}/matlab:/work,${scripts}/2019_03_03_BCT:/bctoolbox,${projDir}/bids/derivatives/qsirecon:/data ${IMAGEDIR}/matlab-R2019a.sif /work/qsinbs.sh "$subject" "$sesname"
+
 	
 		${scripts}/pdf_printer.sh ${projID} ${subject} ${sesname} QSIprepRecon ${based}
-		rm -rf __pycache__
-		rm -rf $stmpdir/*
-		rm -rf $scachedir/*
 	fi
 fi
 ${scripts}/pipeline_collate.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t beta
-rm -rf __pycache__
-rm -rf $CACHESING/*
-rm -rf $TMPSING/*
+
 fi
+
+cd ${projDir}
+NOW=$(date +"%m-%d-%Y")
+mkdir ./tars
+chmod 777 -R ./tars
+tar -czf ./tars/${sub}_${ses}_${NOW}.tar.gz ./*"${sub}"*_*${ses}* ./bids/*"${sub}"* ./bids/derivatives/*/*${sub}* ./bids/derivatives/xcp/ses-"${ses}"/*/*${sub}* ../../data_qc/${project}/*${sub}*${ses}* ../../output/${project}/*${sub}*
+chmod 777 ./tars/${sub}_${ses}_${NOW}.tar.gz
