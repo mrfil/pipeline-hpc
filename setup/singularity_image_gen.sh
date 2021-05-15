@@ -15,12 +15,14 @@ sudo singularity build mriqc-0.15.1.sif docker://poldracklab/mriqc:0.15.1
 sudo singularity build heudiconv0.6.simg docker://nipy/heudiconv:0.6.0
 sudo singularity build fmriprep-20.2.1.sif docker://nipreps/fmriprep:20.2.1
 sudo singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
-sudo singularity build qsiprep-v0.12.2.sif docker://pennbbl/qsiprep:0.12.2
+sudo singularity build qsiprep-v0.13.0RC.sif docker://pennbbl/qsiprep:0.13.0RC
 
 # See README.md for more information on 
 #provide def files for ubuntu-jq, python3
 sudo SINGULARITY_NOHTTPS=1 singularity build ubuntu-jq-0.1.sif defjq
 sudo SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
+sudo SINGULARITY_NOHTTPS=1 singularity build laynii-2.0.0.sif layniidef
+sudo SINGULARITY_NOHTTPS=1 singularity build ashs-1.0.0.sif ashsdef
 
 #Start Docker registry for localhost
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
