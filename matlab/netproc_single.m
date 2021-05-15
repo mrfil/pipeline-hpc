@@ -40,7 +40,7 @@ mainfolder = location;
               while 1
                 cline = fgetl(fid);
                 if ~ischar(cline), break, end
-                info_line=str2double(regexp(cline,'[%_\d.]+','match'));
+                info_line=str2double(regexp(cline,'[%_[+-]?\d.]+','match'));
                 net_mat(info_line(1),info_line(2)) = info_line(3);
                 net_mat(info_line(2),info_line(1)) = info_line(3);
               end
