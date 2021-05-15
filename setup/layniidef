@@ -1,0 +1,11 @@
+Bootstrap: docker
+From: ubuntu:18.04
+Stage: build
+
+%post
+    apt-get update && apt-get install -y vim nano git make build-essential libz-dev
+    mkdir /opt/laynii2
+    cd /opt/laynii2 
+    git clone https://github.com/layerfMRI/laynii
+    cd ./laynii
+    make all
