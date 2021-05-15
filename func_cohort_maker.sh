@@ -14,7 +14,7 @@ if [ $fresh == "yes" ];
 then
 	echo "Generating new cohort_func file for xcpEngine"	
 	echo "id0,img" > cohort_func_${subject}_${sesname}.csv
-	echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
+	echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_res-2_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
 
 elif [ $fresh == "no" ];
 then
@@ -22,10 +22,10 @@ then
 	echo "If you are not interested in generating group-level outputs, consider running each subject with a fresh cohort_func.csv"
 	if [ -f "cohort_func.csv" ];
 	then
-		echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
+		echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_res-2_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
 	else
 		echo "id0,img" > cohort_fun_c${subject}_${sesname}.csv
-        	echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
+        	echo "${subject},derivatives/fmriprep/${subject}/${sesname}/func/${subject}_${sesname}_task-rest_dir-PA_run-1_space-MNI152NLin2009cAsym_res-2_desc-preproc_bold.nii.gz" >> cohort_func_${subject}_${sesname}.csv
 	fi
 fi
 

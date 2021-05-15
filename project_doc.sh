@@ -103,7 +103,7 @@ then
 	echo '<proc id="qsirecon">' >> "$xmlfile"
 	echo '<source>pennbbl/qsiprep</source>' >> "$xmlfile"
 	echo '<title>Tractography with Anatomical Constrains using QSIprep MRtrix implementation </title>' >> "$xmlfile"
-	echo '<version>0.12.2</version>' >> "$xmlfile"
+	echo '<version>0.13.0RC2</version>' >> "$xmlfile"
 	echo "<exec_date>${NOW}</exec_date>" >> "$xmlfile"
 	echo '<description> This workflow uses the msmt_csd algorithm [Jeurissen2014] to estimate FODs for white matter, gray matter and cerebrospinal fluid using multi-shell acquisitions. The white matter FODs are used for tractography and the T1w segmentation is used for anatomical constraints [Smith2012]. </description>' >> "$xmlfile"
 	echo '</proc>' >> "$xmlfile"
