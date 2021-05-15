@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# script for running scfsl nbs calc single subject in container
+# script for running qsi nbs calc single subject in container
 #
 # bind directories for data and toolboxes on run, then specify their paths in this script
 # bind working directory for functions
