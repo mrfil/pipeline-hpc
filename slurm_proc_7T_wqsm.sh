@@ -1,7 +1,12 @@
 #!/bin/bash
-#slurm_process_pipeline.sh
+# extended processing pipeline:
+# 	perform quantitative susceptibility mapping with a custom combination of code from Cornell and Berkeley - courtesy of Berkin Bilgic
+# 	specify fractional intensity threshold for fsl bet with -i argument
+# 		please cite the relevant sources: 
+#	 		http://pre.weill.cornell.edu/mri/pages/qsm.html
+# 			https://people.eecs.berkeley.edu/~chunlei.liu/software.html
 
-while getopts :p:s:z:m:f:l:b:t: option; do
+while getopts :p:s:z:m:f:l:b:t:i: option; do
 	case ${option} in
     	p) export CLEANPROJECT=$OPTARG ;;
     	s) export CLEANSESSION=$OPTARG ;;
@@ -11,6 +16,7 @@ while getopts :p:s:z:m:f:l:b:t: option; do
 	l) export longitudinal=$OPTARG ;;
 	b) export based=$OPTARG ;;
 	t) export version=$OPTARG ;;
+	i) export intensity=$OPTARG ;;
 	esac
 done
 ## takes project, subject, and session as inputs
@@ -135,12 +141,6 @@ else
 	sub=${subject:4}
 	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${projDir}:/datain ${IMAGEDIR}/heudiconv0.6.simg heudiconv -d /datain/{subject}/{session}/*/*/*/* -f /datain/${project}_heuristic_HCP.py -o /datain/bids --minmeta -s ${sub} -ss ${ses} -c dcm2niix -b --overwrite 
 	chmod 2777 -R ${projDir}/bids
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv_run-1_T1w.nii.gz ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv_T1w.nii.gz
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv_run-1_T1w.json ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv1_T1w.json
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv_run-2_T1w.nii.gz ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv2_T1w.nii.gz
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv_run-2_T1w.json ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageinv2_T1w.json
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageuni_run-3_T1w.nii.gz ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageuni_T1w.nii.gz
-#        mv ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageuni_run-3_T1w.json ${projDir}/bids/sub-${sub}/ses-${ses}/anat/sub-${sub}_ses-${ses}_acq-mp2rageuni_T1w.json
 	rm -rf __pycache__
 	rm -rf $CACHESING/*
 	rm -rf $TMPSING/*
@@ -172,8 +172,8 @@ else
 	cp ${projDir}/${sub}/${ses}/*/*/ASPIRE_P_KE_GRE_ASPIRERELEASE*/*IMA ${projDir}/bids/derivatives/swi/${subject}/${sesname}/
   	cp ${projDir}/${sub}/${ses}/*/*/ASPIRE_M_KE_GRE_ASPIRERELEASE*/*IMA ${projDir}/bids/derivatives/swi/${subject}/${sesname}/
 	echo "Generating QSM with hybrid Cornell-Berkeley tools"
-	echo "Fractional intensity threshold set to 0.1 (see scripts/matlab/ndi_qsm_fp1.sh)"
-        SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}/bids/derivatives/swi/${subject}/${sesname}:/datain,${IMAGEDIR}/ndi:/ndi,${scripts}/matlab:/scripts ${IMAGEDIR}/matlab-r2019a.sif /scripts/ndi_qsm_fp1.sh
+	echo "Fractional intensity threshold set to ${intensity} (see scripts/matlab/ndi_qsm_fp1.sh)"
+        SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}/bids/derivatives/swi/${subject}/${sesname}:/datain,${IMAGEDIR}/ndi:/ndi,${scripts}/matlab:/scripts ${IMAGEDIR}/matlab-r2019a.sif /scripts/ndi_qsm.sh ${intensity}
 	echo "Pseudo-BIDSifying QSM outputs"
 	cd ${projDir}/bids/derivatives/swi/${subject}/${sesname}
 	mv ./ndi_out/mag.nii ./${subject}_${sesname}_ndi_mag.nii
@@ -407,8 +407,6 @@ ${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} xcp36pdespike ${based
 	fi
 fi
 ${scripts}/pipeline_collate.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t terra
-mkdir ${bids_out}/${project}
-#mv ${tmpdir}/bids ${bids_out}/${project} 
 
 fi
 
