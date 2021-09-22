@@ -1,9 +1,9 @@
 #!/bin/bash
 #
-#SBATCH --job-name=dcm2all_A
-#SBATCH --output=dcm2all_A.txt
+#SBATCH --job-name=dcm2all_0308
+#SBATCH --output=dcm2all_A_0308.txt
 #SBATCH --ntasks-per-node=1
-#SBATCH --time=48:00:00
+#SBATCH --time=96:00:00
 
 proj=$2
 based=$3
@@ -26,7 +26,7 @@ then
         inputNo="0${SLURM_ARRAY_TASK_ID}"
         echo "$1 started $NOW" > ${scripts}/dyno_$1_test_${inputNo}.txt
 
-        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s ${proj}${inputNo}A -m no -f yes -l no -b ${based} -t beta
+        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s A -m no -f yes -l no -b ${based} -t beta
 
         NOW=$(date "+%D-%T")
         echo "$1 finished $NOW" >> ${scripts}/dyno_$1_test_${inputNo}.txt
@@ -36,7 +36,7 @@ then
         inputNo="${SLURM_ARRAY_TASK_ID}"
         echo "$1 started $NOW" > ${scripts}/dyno_$1_test_${inputNo}.txt
 
-        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s ${proj}${inputNo}A -m no -f yes -l no -b ${based} -t beta
+        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s A -m no -f yes -l no -b ${based} -t beta
 
         NOW=$(date "+%D-%T")
         echo "$1 finished $NOW" >> ${scripts}/dyno_$1_test_${inputNo}.txt
@@ -46,7 +46,7 @@ then
         inputNo="${SLURM_ARRAY_TASK_ID}"
         echo "$1 started $NOW" > ${scripts}/dyno_$1_test_${inputNo}.txt
 
-        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s ${proj}${inputNo}A -m no -f yes -l no -b ${based} -t beta
+        ${scripts}/$1 -p ${proj} -z ${proj}${inputNo} -s A -m no -f yes -l no -b ${based} -t beta
 
         NOW=$(date "+%D-%T")
         echo "$1 finished $NOW" >> ${scripts}/dyno_$1_test_${inputNo}.txt
