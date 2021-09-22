@@ -1,7 +1,7 @@
 #!/bin/bash
 # performs extended processing pipeline with ASHS, multiple reconstructions in QSIprep, nback task processing as example for XCPengine task-based workflow
 
-while getopts :p:s:z:m:f:l:b:t: option; do
+while getopts :p:s:z:m:f:l:b:t:e: option; do
 	case ${option} in
     	p) export CLEANPROJECT=$OPTARG ;;
     	s) export CLEANSESSION=$OPTARG ;;
@@ -11,6 +11,7 @@ while getopts :p:s:z:m:f:l:b:t: option; do
 	l) export longitudinal=$OPTARG ;;
 	b) export based=$OPTARG ;;
 	t) export version=$OPTARG ;;
+	e) export address=$OPTARG ;;
 	esac
 done
 ## takes project, subject, and session as inputs
@@ -420,7 +421,7 @@ else
 
 	fi
 fi
-${scripts}/pipeline_collate_ext.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t beta
+${scripts}/pipeline_collate_ext.sh -p ${project} -z ${subject} -s ${sesname} -b ${based} -t beta -e ${address}
 
 fi
 
