@@ -15,7 +15,7 @@ sudo singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
 sudo singularity build heudiconv-0.9.0.sif docker://nipy/heudiconv:0.9.0
 sudo singularity build fmriprep-20.2.1.sif docker://nipreps/fmriprep:20.2.1
 sudo singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
-sudo singularity build qsiprep-v0.13.0RC.sif docker://pennbbl/qsiprep:0.13.0RC
+sudo singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
 sudo singularity build bidsphysio.sif docker://cbinyu/bidsphysio
 
 # See README.md for more information on 
