@@ -38,34 +38,6 @@ restfuncs=(./func/*rest*bold*nii.gz)
 	fi
 done
 
-#taskfuncmaps=`find ./fmap -maxdepth 2 -type f \( -iname "*task*json" -a -not -iname "*rest*" \)`
-#taskfuncs=`find ./func -maxdepth 2 -type f \( -iname "*task*bold*nii.gz" -a -not -iname "*rest*" \)`
-
-#    for taskfuncmap in ${taskfuncmaps[@]}; do
-#    img=${taskfuncs:1}
-#	taskprefix=${taskfuncmap#*task-*}
-#	taskname="${taskprefix%%_*}"
-#	task="*$taskname*"
-#	if [[ "$img" == "$task" ]];
-#	then
-#		jq .IntendedFor $taskfuncmap > tmpj
-#		if [[ "`cat tmpj`" == "${sesname}$img" ]];
-#		then
-#			echo "IntendedFor found as "${sesname}$img""
-#			exit 0
-#		else
-#			printf "  " > test.txt
-#	       	printf $intend >> test.txt
-#        	printf " " >> test.txt
-#        	printf '"' >> test.txt
-#        	printf "${sesname}""$img"  >> test.txt
-#        	printf '",' >> test.txt
-#        	echo "" >> test.txt
-#        	echo "" > tmp
-#        	awk 'NR==1{a=$0}NR==FNR{next}FNR==32{print a}1' test.txt $taskfuncmap >> tmp && mv tmp $taskfuncmap     
-#        
-#	fi
-#	done
 
 dwimaps=(./fmap/*dwi*json)
 dwis=(./dwi/*dwi*nii.gz)

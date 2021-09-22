@@ -1,18 +1,21 @@
 #!/bin/bash
 #
 #   Single-subject pipeline output collating to labeled csv
+#   Errors detected based on the XCPengine audit files are sent as plaintext to the specified email address in -e argument
 #
-#   pipeline_collate.sh -p {project} -z {bidsname of subject} -s {bidsname of session} {base directory} {version}
+#   pipeline_collate.sh -p {project} -z {bidsname of subject} -s {bidsname of session} {base directory} {version} {email address for error messages}
+#
 #
 #   Paul Camacho
 
-while getopts :p:s:z:b:t: option; do
+while getopts :p:s:z:b:t:e: option; do
 	case ${option} in
     	p) export project=$OPTARG ;;
     	s) export session=$OPTARG ;;
     	z) export subject=$OPTARG ;;
         b) export based=$OPTARG ;;
 	t) export version=$OPTARG ;;
+	e) export address=$OPTARG ;;
 	esac
 done
 
@@ -22,8 +25,6 @@ fmriprepDir=${projDir}/bids/derivatives/fmriprep/${subject}/${session}
 xcpDir=${projDir}/bids/derivatives/xcp/${session}
 qsiprepDir=${projDir}/bids/derivatives/qsiprep/${subject}/${session}/dwi
 qsireconDir=${projDir}/bids/derivatives/qsirecon/${subject}/${session}/dwi
-#dtiDir=${projDir}/bids/derivatives/dtipipeline/${subject}/${session}/Analyze/Tracking
-#strucconDir=${projDir}/bids/derivatives/structconpipeline/ResStructConn/${subject}/${session}/Conn84
 scriptsDir=${based}/${version}/scripts
 
 
@@ -55,7 +56,6 @@ IMAGEDIR=${based}/singularity_images
 
 #mriqc
 cp ${mriqcDir}/anat/*T1w.json ${outputDir}/mriqc_T1w.json
-cp ${mriqcDir}/anat/*run-1*T2w.json ${outputDir}/mriqc_T2w.json
 cp ${mriqcDir}/func/*rest*json ${outputDir}/mriqc_rest_bold.json
 
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}:/scripts ${IMAGEDIR}/ubuntu-jq-0.1.sif /scripts/mriqciqms.sh 
@@ -63,11 +63,6 @@ SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cl
 mv ${outputDir}/${subject}_mriqc_iqms_func_rest.csv ${outputDir}/mriqc_iqms_func_rest.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_t1w.csv /data/${subject}_mriqc_iqms_t1w.csv
 mv ${outputDir}/${subject}_mriqc_iqms_t1w.csv ${outputDir}/mriqc_iqms_t1w.csv
-if [[ -f "${mriqcDir}/anat/*run-1*T2w.json" ]];
-then
-	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_t2w.csv /data/${subject}_mriqc_iqms_t2w.csv
-	mv ${outputDir}/${subject}_mriqc_iqms_t2w.csv ${outputDir}/mriqc_iqms_t2w.csv
-fi
 
 #get quality reports
 #cp ${xcpDir}/xcp_minimal_func/${subject}/*quality.csv ${outputDir}/xcp_func_quality_orig.csv
@@ -93,7 +88,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_func/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_func/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
 fi
 
 cp ${xcpDir}/xcp_minimal_func/${subject}/fcon/nbs/fc36p/*txt ${outputDir}/fc36p/
@@ -110,7 +105,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_despike/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_despike/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_aal116nbs_table.txt
@@ -138,7 +133,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_scrub/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_scrub/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_aal116nbs_table.txt
@@ -158,7 +153,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_aroma/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_aroma/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_aal116nbs_table.txt
@@ -172,7 +167,6 @@ mv ${outputDir}/aroma/${subject}_aal116nbs_table.txt ${outputDir}/${subject}_aal
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_desikanKillianynbs_table_aroma.csv /data/${subject}_${session}_desikanKillianynbs_table_aroma.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_power264nbs_table_aroma.csv /data/${subject}_${session}_power264nbs_table_aroma.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_aal116nbs_table_aroma.csv /data/${subject}_${session}_aal116nbs_table_aroma.csv
-
 
 cp ${qsiprepDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv ${outputDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv
 cp ${qsireconDir}/qsi_nbs_${subject}_aal116.txt ${outputDir}/${subject}_${session}_nbs_qsi_aal116.csv
@@ -245,12 +239,7 @@ else
 mv tmp3.csv tmpnbs12.csv
 fi
  
-if [ -d "${strucconDir}" ];
-then 
-    paste -d, tmpnbs12.csv ${subject}_mridti_results.txt > tmp10.csv
-    paste -d, tmp10.csv scfsl_nbs_${subject}_${session}.csv > tmpfinal.csv
-
-elif [ -d "${qsiprepDir}" ];
+if [ -d "${qsiprepDir}" ];
 then
     paste -d, tmpnbs12.csv ${subject}_${session}_run-1_desc-ImageQC_dwi.csv > tmpnbs13.csv
     paste -d, tmpnbs13.csv ${subject}_${session}_nbs_qsi_aal116.csv > tmpnbs14.csv
