@@ -1,0 +1,5 @@
+.. _Heuristics :
+
+----------
+Heuristics
+----------
