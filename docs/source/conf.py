@@ -16,7 +16,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = '7T MRI Pipeline HPC'
+project = 'BIC MRI Pipeline HPC'
 copyright = '2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton'
 author = 'Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton'
 
