@@ -2,18 +2,17 @@
 #
 #   Single-subject pipeline output collating to labeled csv
 #
-#   pipeline_collate.sh -p {project} -z {bidsname of subject} -s {bidsname of session} {base directory} {version} {email address for error messages (sent plaintext)}
+#   pipeline_collate_STEP.sh -p {project} -z {bidsname of subject} -s {bidsname of session} {base directory} {version}
 #
 #   Paul Camacho
 
-while getopts :p:s:z:b:t:e: option; do
+while getopts :p:s:z:b:t: option; do
 	case ${option} in
     	p) export project=$OPTARG ;;
     	s) export session=$OPTARG ;;
     	z) export subject=$OPTARG ;;
         b) export based=$OPTARG ;;
-	t) export version=$OPTARG ;;
-	e) export address=$OPTARG ;;
+		t) export version=$OPTARG ;;
 	esac
 done
 
@@ -21,12 +20,6 @@ projDir=${based}/${version}/testing/${project}
 mriqcDir=${projDir}/bids/derivatives/mriqc/${subject}/${session}
 fmriprepDir=${projDir}/bids/derivatives/fmriprep/${subject}/${session}
 xcpDir=${projDir}/bids/derivatives/xcp/${session}
-qsiprepDir=${projDir}/bids/derivatives/qsiprep/${subject}/${session}/dwi
-qsireconDir=${projDir}/bids/derivatives/qsicsd/${subject}/${session}/dwi
-qsianDir=${projDir}/bids/derivatives/qsiamiconoddi/${subject}/${session}/dwi
-qsigqiDir=${projDir}/bids/derivatives/qsigqi/${subject}/${session}/dwi
-#dtiDir=${projDir}/bids/derivatives/dtipipeline/${subject}/${session}/Analyze/Tracking
-#strucconDir=${projDir}/bids/derivatives/structconpipeline/ResStructConn/${subject}/${session}/Conn84
 scriptsDir=${based}/${version}/scripts
 
 
@@ -56,21 +49,33 @@ mkdir $SINGTMP
 
 IMAGEDIR=${based}/singularity_images
 
+mkdir -p ${projDir}/bids/derivatives/qatools/${subject}
+qatoolsDir="${projDir}/bids/derivatives/qatools/${subject}"
+mkdir -p ${outputDir}/qatools
+if [[ -f "${qatoolsDir}/qatools-results.csv" ]];
+then
+	cp ${qatoolsDir}/qatools-results.csv ${outputDir}/${subject}_${session}_qatools-results.csv
+else
+	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv --bind ${projDir}/bids/derivatives:/datain,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt $IMAGEDIR/qatools-v1.2.sif --subjects_dir /datain/freesurfer --output_dir /datain/qatools/${subject} --subjects ${subject} --screenshots --screenshots-html --shape
+	cp ${qatoolsDir}/qatools-results.csv ${outputDir}/${subject}_${session}_qatools-results.csv
+fi
+
+
 #mriqc
 cp ${mriqcDir}/anat/*T1w.json ${outputDir}/mriqc_T1w.json
-cp ${mriqcDir}/anat/*run-1*T2w.json ${outputDir}/mriqc_T2w.json
 cp ${mriqcDir}/func/*rest*json ${outputDir}/mriqc_rest_bold.json
+cp ${mriqcDir}/func/*task-EGNG*.json ${outputDir}/mriqc_egng_bold.json
+cp ${mriqcDir}/func/*task-SET*json ${outputDir}/mriqc_set_bold.json
 
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}:/scripts ${IMAGEDIR}/ubuntu-jq-0.1.sif /scripts/mriqciqms.sh 
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_func_rest.csv /data/${subject}_mriqc_iqms_func_rest.csv
 mv ${outputDir}/${subject}_mriqc_iqms_func_rest.csv ${outputDir}/mriqc_iqms_func_rest.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_t1w.csv /data/${subject}_mriqc_iqms_t1w.csv
 mv ${outputDir}/${subject}_mriqc_iqms_t1w.csv ${outputDir}/mriqc_iqms_t1w.csv
-if [[ -f "${mriqcDir}/anat/*run-1*T2w.json" ]];
-then
-	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_t2w.csv /data/${subject}_mriqc_iqms_t2w.csv
-	mv ${outputDir}/${subject}_mriqc_iqms_t2w.csv ${outputDir}/mriqc_iqms_t2w.csv
-fi
+SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_func_egng.csv /data/${subject}_mriqc_iqms_func_egng.csv
+mv ${outputDir}/${subject}_mriqc_iqms_func_egng.csv ${outputDir}/mriqc_iqms_func_egng.csv
+SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/mriqc_iqms_func_set.csv /data/${subject}_mriqc_iqms_func_set.csv
+mv ${outputDir}/${subject}_mriqc_iqms_func_set.csv ${outputDir}/mriqc_iqms_func_set.csv
 
 #get quality reports
 #cp ${xcpDir}/xcp_minimal_func/${subject}/*quality.csv ${outputDir}/xcp_func_quality_orig.csv
@@ -78,23 +83,17 @@ cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_fc36p.csv ${outputDir}/xcp_fu
 cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_despike.csv ${outputDir}/xcp_despike_quality_orig.csv
 cp ${xcpDir}/xcp_minimal_func/${subject}/*_quality_scrub.csv ${outputDir}/xcp_scrub_quality_orig.csv
 cp ${xcpDir}/xcp_minimal_aroma/${subject}/*quality_aroma.csv ${outputDir}/xcp_aroma_quality_orig.csv
-cp ${xcpDir}/xcp_36p_nback/${subject}/*quality.csv ${outputDir}/xcp_fc36p_nback_quality_orig.csv
 
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/xcp_func_quality_orig.csv /data/xcp_func_quality.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/xcp_despike_quality_orig.csv /data/xcp_despike_quality.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/xcp_scrub_quality_orig.csv /data/xcp_scrub_quality.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/xcp_aroma_quality_orig.csv /data/xcp_aroma_quality.csv
-SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/xcp_fc36p_nback_quality_orig.csv /data/xcp_fc36p_nback_quality.csv
 
 #nbs files
 mkdir ${outputDir}/fc36p
 mkdir ${outputDir}/despike
 mkdir ${outputDir}/scrub
 mkdir ${outputDir}/aroma
-
-cp ${xcpDir}/xcp_36p_nback/${subject}/roiquant/aal116/${subject}_aal116_mean_zstat1_2back1back.csv ${outputDir}/${subject}_aal116_mean_zstat1_2back1back.csv
-cp ${xcpDir}/xcp_36p_nback/${subject}/roiquant/desikanKilliany/${subject}_desikanKilliany_mean_zstat1_2back1back.csv ${outputDir}/${subject}_desikanKilliany_mean_zstat1_2back1back.csv
-cp ${xcpDir}/xcp_36p_nback/${subject}/roiquant/power264/${subject}_power264_mean_zstat1_2back1back.csv ${outputDir}/${subject}_power264_mean_zstat1_2back1back.csv
 chmod 777 -R ${outputDir}
 
 if [[ `cat ${xcpDir}/xcp_minimal_func/${subject}/${subject}_logs/${subject}_audit.csv | grep "1,1,1,1,1,1,1,1,1,1"` ]];
@@ -102,7 +101,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_func/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_func/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
 fi
 
 cp ${xcpDir}/xcp_minimal_func/${subject}/fcon/nbs/fc36p/*txt ${outputDir}/fc36p/
@@ -119,7 +118,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_despike/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_despike/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/despike/${subject}_aal116nbs_table.txt
@@ -147,7 +146,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_scrub/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_scrub/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/scrub/${subject}_aal116nbs_table.txt
@@ -167,7 +166,7 @@ then
 echo ""
 else
 echo "XCPengine failure detected in ${subject}_audit.csv" > ${outputDir}/pipeline_error_log.txt
-echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_aroma/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" ${address}
+echo "Pipeline processing error detected in XCPengine for ${subject}. Check attached audit files for module failure point" | mail -a ${xcpDir}/xcp_minimal_aroma/${subject}/${subject}_logs/${subject}_audit.csv -s "Pipeline error detected in XCPengine audit for ${subject}" pcamach2@illinois.edu
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_desikanKillianynbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_power264nbs_table.txt
 cp ${scriptsDir}/null_files/null_rsfc_nbs_table.txt ${outputDir}/aroma/${subject}_aal116nbs_table.txt
@@ -181,23 +180,6 @@ mv ${outputDir}/aroma/${subject}_aal116nbs_table.txt ${outputDir}/${subject}_aal
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_desikanKillianynbs_table_aroma.csv /data/${subject}_${session}_desikanKillianynbs_table_aroma.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_power264nbs_table_aroma.csv /data/${subject}_${session}_power264nbs_table_aroma.csv
 SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/${subject}_aal116nbs_table_aroma.csv /data/${subject}_${session}_aal116nbs_table_aroma.csv
-
-#if [ -d "${strucconDir}" ];
-#then
-#	cp ${dtiDir}/${subject}_mridti_results.txt ${outputDir}/${subject}_mridti_results.csv
-#	cp ${strucconDir}/scfsl_nbs_${subject}.txt ${outputDir}/scfsl_nbs_${subject}.csv
-#	cp ${strucconDir}/${subject}_scfsl_nbs_rois.txt ${outputDir}/${subject}_scfsl_nbs_rois.csv
-#
-#	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv -B ${outputDir}:/data,${scriptsDir}/pyscripts:/work ${IMAGEDIR}/python3.sif /work/dsn_tag.py /data/scfsl_nbs_${subject}.csv /data/scfsl_nbs_${subject}_${session}.csv
-#else
-#	echo "no scfsl detected"
-#fi
-
-#sub-MBB005_ses-A_run-1_desc-ImageQC_dwi.csv
-cp ${qsiprepDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv ${outputDir}/${subject}_${session}_run-1_desc-ImageQC_dwi.csv
-cp ${qsireconDir}/qsi_nbs_${subject}_aal116.txt ${outputDir}/${subject}_${session}_nbs_qsi_aal116.csv
-cp ${qsireconDir}/qsi_nbs_${subject}_brainnetome246.txt ${outputDir}/${subject}_${session}_nbs_qsi_brainnetome246.csv
-cp ${qsireconDir}/qsi_nbs_${subject}_power264.txt ${outputDir}/${subject}_${session}_nbs_qsi_power264.csv
 
 # create csv and rename existing version
 if [ -f "$outputDir/${subject}_${session}_pipeline_results.csv" ];
@@ -213,65 +195,68 @@ fi
 echo "Collating single-subject csv"
 cd $outputDir
 
-if [ -f	"${outputDir}/mriqc_iqms_t2w.csv" ];
-then 
-    paste -d, mriqc_iqms_t2w.csv mriqc_iqms_t1w.csv > tmp_anat.csv
-    paste -d, mriqc_iqms_func_rest.csv tmp_anat.csv > tmp1.csv
-else
-    paste -d, mriqc_iqms_func_rest.csv mriqc_iqms_t1w.csv > tmp1.csv
-fi
+paste -d, mriqc_iqms_func_*.csv mriqc_iqms_t1w.csv > tmp1.csv
+
+if [[ -f "${outputDir}/xcp_func_quality.csv" ]];
+then
 paste -d, tmp1.csv xcp_func_quality.csv > tmpfc36p.csv
 paste -d, tmpfc36p.csv xcp_despike_quality.csv > tmpds.csv
-paste -d, tmpds.csv xcp_scrub_quality.csv > tmp2.csv
-paste -d, tmp2.csv xcp_aroma_quality.csv > tmp22.csv
-paste -d, tmp22.csv xcp_fc36p_nback_quality.csv > tmp23.csv
-paste -d, tmp23.csv ${subject}_aal116_mean_zstat1_2back1back.csv > tmpn1.csv
-paste -d, tmpn1.csv ${subject}_desikanKilliany_mean_zstat1_2back1back.csv > tmpn2.csv
-paste -d, tmpn2.csv ${subject}_power264_mean_zstat1_2back1back.csv > tmp3.csv
+	if [[ -f "${outputDir}/xcp_scrub_quality.csv" ]];
+	then
+	paste -d, tmpds.csv xcp_scrub_quality.csv > tmp2.csv
+	paste -d, tmp2.csv xcp_aroma_quality.csv > tmp3.csv
+	else
+	paste -d, tmpds.csv xcp_aroma_quality.csv > tmp3.csv
+	fi
+fi
 
+if [[ -f "${outputDir}/${subject}_${session}_desikanKillianynbs_table_fc36p.csv" ]];
+then
 paste -d, tmp3.csv ${subject}_${session}_desikanKillianynbs_table_fc36p.csv > tmpnbs1.csv
 paste -d, tmpnbs1.csv ${subject}_${session}_power264nbs_table_fc36p.csv > tmpnbs2.csv
 paste -d, tmpnbs2.csv ${subject}_${session}_aal116nbs_table_fc36p.csv  > tmpnbs3.csv
-
-paste -d, tmpnbs3.csv ${subject}_${session}_desikanKillianynbs_table_despike.csv > tmpnbs4.csv
-paste -d, tmpnbs4.csv ${subject}_${session}_power264nbs_table_despike.csv > tmpnbs5.csv
-paste -d, tmpnbs5.csv ${subject}_${session}_aal116nbs_table_despike.csv  > tmpnbs6.csv
-
-paste -d, tmpnbs6.csv ${subject}_${session}_desikanKillianynbs_table_scrub.csv > tmpnbs7.csv
-paste -d, tmpnbs7.csv ${subject}_${session}_power264nbs_table_scrub.csv > tmpnbs8.csv
-paste -d, tmpnbs8.csv ${subject}_${session}_aal116nbs_table_scrub.csv > tmpnbs9.csv
-
-paste -d, tmpnbs9.csv ${subject}_${session}_desikanKillianynbs_table_aroma.csv > tmpnbs10.csv
-paste -d, tmpnbs10.csv ${subject}_${session}_power264nbs_table_aroma.csv > tmpnbs11.csv
-paste -d, tmpnbs11.csv ${subject}_${session}_aal116nbs_table_aroma.csv > tmpnbs12.csv
-
-if [ -d "${strucconDir}" ];
-then 
-    paste -d, tmpnbs12.csv ${subject}_mridti_results.txt > tmp10.csv
-    paste -d, tmp10.csv scfsl_nbs_${subject}_${session}.csv > tmpfinal.csv
-
-elif [ -d "${qsiprepDir}" ];
-then
-    paste -d, tmpnbs12.csv ${subject}_${session}_run-1_desc-ImageQC_dwi.csv > tmpnbs13.csv
-    paste -d, tmpnbs13.csv ${subject}_${session}_nbs_qsi_aal116.csv > tmpnbs14.csv
-    paste -d, tmpnbs14.csv ${subject}_${session}_nbs_qsi_brainnetome246.csv > tmpnbs15.csv
-    paste -d, tmpnbs15.csv ${subject}_${session}_nbs_qsi_power264.csv > tmpfinal.csv
-
+	if [[ -f "${outputDir}/${subject}_${session}_desikanKillianynbs_table_despike.csv" ]];
+	then
+	paste -d, tmpnbs3.csv ${subject}_${session}_desikanKillianynbs_table_despike.csv > tmpnbs4.csv
+	paste -d, tmpnbs4.csv ${subject}_${session}_power264nbs_table_despike.csv > tmpnbs5.csv
+	paste -d, tmpnbs5.csv ${subject}_${session}_aal116nbs_table_despike.csv  > tmpnbs6.csv
+		if [[ -f "${outputDir}/${subject}_${session}_desikanKillianynbs_table_scrub.csv" ]];
+		then
+		paste -d, tmpnbs6.csv ${subject}_${session}_desikanKillianynbs_table_scrub.csv > tmpnbs7.csv
+		paste -d, tmpnbs7.csv ${subject}_${session}_power264nbs_table_scrub.csv > tmpnbs8.csv
+		paste -d, tmpnbs8.csv ${subject}_${session}_aal116nbs_table_scrub.csv > tmpnbs9.csv
+		paste -d, tmpnbs9.csv ${subject}_${session}_desikanKillianynbs_table_aroma.csv > tmpnbs10.csv
+		paste -d, tmpnbs10.csv ${subject}_${session}_power264nbs_table_aroma.csv > tmpnbs11.csv
+		paste -d, tmpnbs11.csv ${subject}_${session}_aal116nbs_table_aroma.csv > tmpnbs12.csv
+		else
+                paste -d, tmpnbs6.csv ${subject}_${session}_desikanKillianynbs_table_aroma.csv > tmpnbs10.csv
+                paste -d, tmpnbs10.csv ${subject}_${session}_power264nbs_table_aroma.csv > tmpnbs11.csv
+                paste -d, tmpnbs11.csv ${subject}_${session}_aal116nbs_table_aroma.csv > tmpnbs12.csv
+		fi
+	else
+        paste -d, tmpnbs3.csv ${subject}_${session}_desikanKillianynbs_table_aroma.csv > tmpnbs10.csv
+        paste -d, tmpnbs10.csv ${subject}_${session}_power264nbs_table_aroma.csv > tmpnbs11.csv
+        paste -d, tmpnbs11.csv ${subject}_${session}_aal116nbs_table_aroma.csv > tmpnbs12.csv
+	fi
 else
-    mv tmpnbs12.csv tmpfinal.csv
+mv tmp3.csv tmpnbs12.csv
 fi
 
-ses=${session:4}
-sub=${subject:4}
-echo "datetime" > tmp_date.csv
-echo `cat ${projDir}/${sub}/${ses}/*/*/99/DICOM/scan_99_catalog.xml | grep -m 1 -o 'Time=".*" d' | cut -c 7- | rev | cut -c 4- | rev | sed 's/:/./g' | sed 's/-/./g'` >> tmp_date.csv
-paste -d, tmpfinal.csv tmp_date.csv > tmpfinaldate.csv
+mv tmpnbs12.csv tmpfinal.csv
 
-mv tmpfinaldate.csv ${subject}_${session}_pipeline_results.csv
+if [[ -f "${subject}_${session}_qatools-results.csv" ]];
+then
+	paste -d, tmpfinal.csv ${subject}_${session}_qatools-results.csv > tmpfinal_qatools.csv
+	mv tmpfinal_qatools.csv tmpfinal.csv
+else
+	echo "no qatools output found"
+fi
+
+mv tmpfinal.csv ${subject}_${session}_pipeline_results.csv
 rm tmp*.csv
 rm -R $SINGCACHE
 rm -R $SINGTMP
 
 echo "Finished collating"
 echo "See ${outputDir} for results csv"
-echo "See ${based}/${version}/data_qc for visual quality control reports"
+
