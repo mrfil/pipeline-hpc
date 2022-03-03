@@ -64,6 +64,6 @@ find . -type f -name "*_${imt[@]}.nii.gz" -exec sh -c 'echo "$1"' - {} \; -and -
 #  find . -type f -name "*_${imt}_defaced.nii.gz" -print0 | while IFS= read -d '' -r file; do mv "$file" "${file/_defaced.nii.gz/.nii.gz}"; done
 while IFS= read -d '' -r file; do
 mv "$file" "${file/_defaced.nii.gz/.nii.gz}"
-done 3< <(find "${dataDir}" -type f -name "*_${imt[@]}_defaced.nii.gz" -print0)
+done < <(find . -type f -name "*_${imt[@]}_defaced.nii.gz" -print0)
 
 done
