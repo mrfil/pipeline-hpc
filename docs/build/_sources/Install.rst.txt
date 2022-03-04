@@ -53,6 +53,13 @@ This following commands can be used to build these required images for the pipel
     docker push localhost:5000/html2pdf:79.1
     cd ../
     SINGULARITY_NOHTTPS=1 singularity build html2pdf.sif docker://localhost:5000/html2pdf:79.1
+    
+    #build jq and jo image for new project_doc.sh
+    cd ./ubuntu-jqjo
+    docker build -t localhost:5000/ubuntu-jqjo:0.2 .
+    docker push localhost:5000/ubuntu-jqjo:0.2
+    cd ../
+    SINGULARITY_NOHTTPS=1 singularity build ubuntu-jqjo-v0.2.sif docker://localhost:5000/ubuntu-jqjo:0.2
 
     # Follow directions to build Docker images for the following:
     git clone https://github.com/cbinyu/bidsphysio.git

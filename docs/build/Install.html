@@ -83,6 +83,13 @@ docker push localhost:5000/html2pdf:79.1
 <span class="nb">cd</span> ../
 <span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build html2pdf.sif docker://localhost:5000/html2pdf:79.1
 
+<span class="c1">#build jq and jo image for new project_doc.sh</span>
+<span class="nb">cd</span> ./ubuntu-jqjo
+docker build -t localhost:5000/ubuntu-jqjo:0.2 .
+docker push localhost:5000/ubuntu-jqjo:0.2
+<span class="nb">cd</span> ../
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ubuntu-jqjo-v0.2.sif docker://localhost:5000/ubuntu-jqjo:0.2
+
 <span class="c1"># Follow directions to build Docker images for the following:</span>
 git clone https://github.com/cbinyu/bidsphysio.git
 <span class="nb">cd</span> ./bidsphysio

@@ -35,7 +35,75 @@
             
   <section id="faqs">
 <span id="id1"></span><h1>FAQs<a class="headerlink" href="#faqs" title="Permalink to this headline">¶</a></h1>
-<p>Get from Lab wiki, todolist, metrics document</p>
+<section id="how-to-build-with-docker">
+<h2>How to build with Docker<a class="headerlink" href="#how-to-build-with-docker" title="Permalink to this headline">¶</a></h2>
+<p>From a Dockerfile:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> path/to/Dockerfile
+docker build -t organization/image:tag .
+</pre></div>
+</div>
+<p><cite>More information &lt;https://docs.docker.com/engine/reference/builder/#format&gt;</cite></p>
+<p>Example Dockerfile:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1">#base image ubuntu 20.04​</span>
+FROM ubuntu:20.04
+<span class="c1"># Disable Prompt During Packages Installation</span>
+ARG <span class="nv">DEBIAN_FRONTEND</span><span class="o">=</span>noninteractive
+<span class="c1"># Update Ubuntu Software repository &amp; install python3​</span>
+RUN apt-get update
+RUN apt-get install -y vim nano python3 python3-pip
+
+<span class="c1"># Install python3 packages with pip3</span>
+RUN pip3 install numpy, pandas, matplotlib, seaborn, scipy
+
+<span class="c1">#Environmental variables​</span>
+ENV <span class="nv">VAR</span><span class="o">=</span><span class="s2">&quot;FOO&quot;</span>
+
+<span class="c1">#copy files​</span>
+COPY directory/in/build/context /opt/destination/in/image
+
+<span class="c1">#Working directory​</span>
+WORKDIR /opt/some/directory
+
+<span class="c1">#Entrypoint script for docker exec​</span>
+ENTRYPOINT <span class="nb">exec</span> /usr/local/bin/python <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</pre></div>
+</div>
+<p>From a Docker repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull organization/image:tag
+</pre></div>
+</div>
+</section>
+<section id="how-to-build-with-singularity">
+<h2>How to build with Singularity<a class="headerlink" href="#how-to-build-with-singularity" title="Permalink to this headline">¶</a></h2>
+<p>From a <cite>def recipe file&lt;https://singularity-userdoc.readthedocs.io/en/latest/container_recipes.html​&gt;</cite> (requires sudo on most systems, some can bypass with –fakeroot):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo singularity build image.sif image.def
+</pre></div>
+</div>
+<p>Example def file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Bootstrap: docker
+From: ubuntu:20.04
+
+%files
+/directory/in/build/context
+/directory/in/build/context /opt/destination/in/image
+
+%environment
+<span class="nb">export</span> <span class="nv">VAR</span><span class="o">=</span><span class="s2">&quot;FOO&quot;</span>
+
+%runscript
+<span class="nb">exec</span> /usr/local/bin/python <span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+
+%post
+apt-get update
+apt-get install -y vim nano python3 python3-pip
+pip3 install numpy, pandas, matplotlib, seaborn, scipy
+</pre></div>
+</div>
+<p>From a Docker repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>singularity build imagename.sif docker://organization/image:tag
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -63,7 +131,11 @@
 <li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FAQs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-build-with-docker">How to build with Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-build-with-singularity">How to build with Singularity</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
