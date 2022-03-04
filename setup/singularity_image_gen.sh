@@ -30,7 +30,7 @@ sudo SINGULARITY_NOHTTPS=1 singularity build ashs-1.0.0.sif ashsdef
 docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
 #build jq and jo image for new project_doc.sh
-cd ./jqjo
+cd ./ubuntu-jqjo
 docker build -t localhost:5000/ubuntu-jqjo:0.2 .
 docker push localhost:5000/ubuntu-jqjo:0.2
 cd ../
