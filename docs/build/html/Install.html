@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Install &#8212; BIC MRI Pipeline HPC 0.1.0 documentation</title>
+    <title>Install &#8212; 7T MRI Pipeline HPC 0.1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
@@ -35,18 +35,76 @@
             
   <section id="install">
 <span id="id1"></span><h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
-<p>To get started please install the following requirements:
-.. hlist:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>* Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep)
-* Singularity image of Matlab R2019a (how to: https://github.com/mathworks-ref-arch/matlab-dockerfile)
-* Singularity image of Ubuntu with JQ installed Singularity image of Python3 (Based on Docker python/3.9.0)
-* Singularity image of Docker HTML to PDF (https://github.com/pinkeen/docker-html-to-pdf)
-* Brain Connectivity Toolbox for Matlab (https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0)
-* xcpEngine dsn files (https://github.com/PennBBL/xcpEngine/tree/master/designs)
-* ASHS (https://sites.google.com/site/hipposubfields/)
-* bidsphysio (https://github.com/cbinyu/bidsphysio)
+<p>To get started with the pipeline, please install the following requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep)</p></li>
+<li><p>Singularity image of Matlab R2019a (how to: <a class="reference external" href="https://github.com/mathworks-ref-arch/matlab-dockerfile">https://github.com/mathworks-ref-arch/matlab-dockerfile</a>)</p></li>
+<li><p>Singularity image of Ubuntu with JQ installed Singularity image of Python3 (Based on Docker python/3.9.0)</p></li>
+<li><p>Singularity image of Docker HTML to PDF (<a class="reference external" href="https://github.com/pinkeen/docker-html-to-pdf">https://github.com/pinkeen/docker-html-to-pdf</a>)</p></li>
+<li><p>Brain Connectivity Toolbox for Matlab (<a class="reference external" href="https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0">https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0</a>)</p></li>
+<li><p>xcpEngine dsn files (<a class="reference external" href="https://github.com/PennBBL/xcpEngine/tree/master/designs">https://github.com/PennBBL/xcpEngine/tree/master/designs</a>)</p></li>
+<li><p>ASHS (<a class="reference external" href="https://sites.google.com/site/hipposubfields/">https://sites.google.com/site/hipposubfields/</a>)</p></li>
+<li><p>LAYNII (<a class="reference external" href="https://github.com/layerfMRI/LAYNII">https://github.com/layerfMRI/LAYNII</a>)</p></li>
+<li><p>bidsphysio (<a class="reference external" href="https://github.com/cbinyu/bidsphysio">https://github.com/cbinyu/bidsphysio</a>)</p></li>
+</ul>
+</div></blockquote>
+<p>You will need to install git, to clone the build recipe files from this repository.
+Please cite the images used and retrieve all relevant licenses (you will need your own Freesurfer license for some containers).</p>
+<p>This following commands can be used to build these required images for the pipeline.
+<em>Run on a machine which has sufficient permissions for Singularity and Docker building!</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generates Singularity images used in pipeline</span>
+mkdir ./singularity_images
+chmod <span class="m">777</span> -R ./singularity_images
+<span class="nb">cd</span> ./singularity_images
+
+singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
+singularity build heudiconv-0.9.sif docker://nipy/heudiconv:0.9.0
+singularity build fmriprep-v20.2.6.sif docker://nipreps/fmriprep:21.0.0
+singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
+singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
+
+<span class="c1"># See README.md for more information on</span>
+<span class="c1"># provided def files for ubuntu-jq, python3</span>
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ubuntu-jq-0.1.sif defjq
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build python3.sif defpy3
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build laynii-2.0.0.sif layniidef
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ashs-1.0.0.sif ashsdef
+
+<span class="c1">#Start Docker registry for localhost</span>
+docker run -d -p <span class="m">5000</span>:5000 --restart<span class="o">=</span>always --name registry registry:2
+<span class="c1"># Follow directions to build Docker images for the following:</span>
+<span class="c1"># https://github.com/pinkeen/docker-html-to-pdf</span>
+git clone https://github.com/pinkeen/docker-html-to-pdf.git
+<span class="c1"># You will want to set the port used in html2pdf to an unused port on the HPC</span>
+<span class="nb">cd</span> ./docker-html-to-pdf
+docker build -t html2pdf:79.1 -t localhost:5000/html2pdf:79.1 .
+docker push localhost:5000/html2pdf:79.1
+<span class="nb">cd</span> ../
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build html2pdf.sif docker://localhost:5000/html2pdf:79.1
+
+<span class="c1"># Follow directions to build Docker images for the following:</span>
+git clone https://github.com/cbinyu/bidsphysio.git
+<span class="nb">cd</span> ./bidsphysio
+docker build -t bidsphysio:latest -t localhost:5000/bidsphysio:latest .
+docker push localhost:5000/bidsphysio:latest
+<span class="nb">cd</span> ../
+sudo <span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build bidsphysio.sif docker://localhost:5000/bidsphysio:latest
+
+<span class="c1"># https://github.com/mathworks-ref-arch/matlab-dockerfile</span>
+git clone https://github.com/mathworks-ref-arch/matlab-dockerfile.git
+mkdir ./matlab-dockerfile/matlab-install
+<span class="c1"># place install files and modified license in correct directories per guide in repo</span>
+<span class="nb">cd</span> ./matlab-dockerfile
+docker build -f Dockerfile.R2019a -t matlab:r2019a -t localhost:5000/matlab:r2019a --build-arg <span class="nv">MATLAB_RELEASE</span><span class="o">=</span>R2019a .
+<span class="nb">cd</span> ../
+docker push localhost:5000/matlab:r2019b
+sudo <span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build matlab-R2019a.sif docker://localhost:5000/matlab:r2019a
 </pre></div>
 </div>
+<p>The process for creating the MATLAB container has changed! You can build more recent MATLAB containers using the
+official Docker Hub images from MathWorks. You will still need to provide license information as denoted in the
+repository listed above.</p>
 </section>
 
 
@@ -56,7 +114,7 @@
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">BIC MRI Pipeline HPC</a></h1>
+<h1 class="logo"><a href="index.html">7T MRI Pipeline HPC</a></h1>
 
 
 

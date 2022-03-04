@@ -8,7 +8,7 @@ The BIDS format and BIDS-App pipelines
 --------------------------------------
 This pipeline and its sub-pipelines are designed to convert DICOM data to the Brain Imaging Data Structure (BIDS)
 and leverage BIDS-Apps to perform quality control, preprocessing, and automated analyses on high-performance computing clusters.
-The main Pipeline takes brain MRI DICOMs and outputs BIDS sourcedata, preprocessed derivatives, resting-state functional connectivity and structural connectivity matrices, basic network-based statistics, and hippocampal subfield segmentation via BIDS App Singularity containers. 
+The main Pipeline takes 7T brain MRI DICOMs and outputs BIDS sourcedata, preprocessed derivatives, resting-state functional connectivity and structural connectivity matrices, basic network-based statistics, and hippocampal subfield segmentation via BIDS App Singularity containers. 
 While developed for Slurm control systems, the shell scripts here should be compatible with CentOS-derived Linux clusters.
 
 The input DICOM dataset for your project should be somewhat organized to facilitate batch conversion to BIDS according to your heuristic.py
@@ -16,7 +16,7 @@ The input DICOM dataset for your project should be somewhat organized to facilit
 Example: ::
     placeholder
 
-Our :ref:`Install<Installation Guide>`  To get started please install the following requirements:
+Our :ref:`Installation Guide<Install>` provides details on installing the following requirements:
 
 .. hlist::
     * Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep) 

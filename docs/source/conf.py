@@ -16,7 +16,7 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'BIC MRI Pipeline HPC'
+project = 'BIC 3T MRI Pipeline HPC'
 copyright = '2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton'
 author = 'Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton'
 
@@ -52,3 +52,5 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+pygments_style = 'sphinx'
