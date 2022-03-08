@@ -1,66 +1,122 @@
-
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
-    <title>Main Pipeline &#8212; BIC 3T MRI Pipeline HPC 0.1.0 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main Pipeline &mdash; BIC 3T MRI Pipeline HPC 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Sub-Pipelines" href="Sub-Pipelines.html" />
-    <link rel="prev" title="Usage" href="Usage.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+    <link rel="prev" title="Usage" href="Usage.html" /> 
+</head>
 
-  </head><body>
-  
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BIC 3T MRI Pipeline HPC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="About.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Main Pipeline</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#inputs">Inputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#preprocessing-derivatives">Preprocessing derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analyses-derivatives">Analyses derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#metrics">Metrics:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#network-based-statistics">Network-based statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#quality-control-metrics">Quality Control Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
+</ul>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+        </div>
+      </div>
+    </nav>
 
-          <div class="body" role="main">
-            
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BIC 3T MRI Pipeline HPC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Main Pipeline</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Main-Pipeline.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="main-pipeline">
-<span id="id1"></span><h1>Main Pipeline<a class="headerlink" href="#main-pipeline" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Main Pipeline<a class="headerlink" href="#main-pipeline" title="Permalink to this headline"></a></h1>
 <p>To facilitate reproducible analyses, we developed a Singularity container-based processing pipeline for MRI modalities commonly collected at our site (BIC + CI-AIC).
 These are compatible with the Brain Imaging Data Structure (BIDS) specification and are designed for deployment to high-performance computing clusters.
 This pipeline uses internally and externally developed BIDS-Apps converted from Docker images to Singularity images or built directly as Singularity images (see <a class="reference internal" href="Install.html#install"><span class="std std-ref">the installation guide</span></a>).
 The pipeline consists of an initial conversion and quality control metric generation step, followed by four steps run in parallel with the Slurm Workload Manager (SchedMD LLC, Lehi, Utah, USA).
 <em>Note that these scripts can also be run on Linux systems not managed by Slurm.</em></p>
 <section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline">¶</a></h2>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Permalink to this headline"></a></h2>
 <p>The pipeline assumes data to be in a DICOM format, with some uniformity of organization based on the project/subject/session/series structure.</p>
 </section>
 <section id="outputs">
-<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline">¶</a></h2>
+<h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this headline"></a></h2>
 <p>DICOMs are converted to BIDS-compatible NIFTIs and sidecar JSONs using HeuDiConv. These are used with BIDS-Apps to produce standard preprocessing derivatives,
 along with resting-state functional connectivity analyses and structural connectivity analyses.</p>
 <section id="preprocessing-derivatives">
-<h3>Preprocessing derivatives<a class="headerlink" href="#preprocessing-derivatives" title="Permalink to this headline">¶</a></h3>
+<h3>Preprocessing derivatives<a class="headerlink" href="#preprocessing-derivatives" title="Permalink to this headline"></a></h3>
 <p>desc here</p>
 </section>
 <section id="analyses-derivatives">
-<h3>Analyses derivatives<a class="headerlink" href="#analyses-derivatives" title="Permalink to this headline">¶</a></h3>
+<h3>Analyses derivatives<a class="headerlink" href="#analyses-derivatives" title="Permalink to this headline"></a></h3>
 <p>desc here</p>
 </section>
 <section id="metrics">
-<h3>Metrics:<a class="headerlink" href="#metrics" title="Permalink to this headline">¶</a></h3>
+<h3>Metrics:<a class="headerlink" href="#metrics" title="Permalink to this headline"></a></h3>
 <p>Wherever possible, we combine quantifiable metrics from each modality to a common .csv with variable names that are more data science-friendly.</p>
 <section id="network-based-statistics">
-<h4>Network-based statistics<a class="headerlink" href="#network-based-statistics" title="Permalink to this headline">¶</a></h4>
+<h4>Network-based statistics<a class="headerlink" href="#network-based-statistics" title="Permalink to this headline"></a></h4>
 <p>CSD + SIFT2
 Ends with SC = SIFT2 CSD Structural connectivity network-based measures</p>
 <p><a class="reference external" href="https://qsiprep.readthedocs.io/en/latest/reconstruction.html#mrtrix-multishell-msmt">https://qsiprep.readthedocs.io/en/latest/reconstruction.html#mrtrix-multishell-msmt</a> - docs on   CSD reconstruction method + SIFT2 tractogram filtering
@@ -93,7 +149,7 @@ GlobalEfficiencyaal116fc36p
 GlobalEfficiencyaal116scrub</p>
 </section>
 <section id="quality-control-metrics">
-<h4>Quality Control Metrics<a class="headerlink" href="#quality-control-metrics" title="Permalink to this headline">¶</a></h4>
+<h4>Quality Control Metrics<a class="headerlink" href="#quality-control-metrics" title="Permalink to this headline"></a></h4>
 <p>fMRI + M2PRAGE
 <a class="reference external" href="https://mriqc.readthedocs.io/en/latest/measures.html">https://mriqc.readthedocs.io/en/latest/measures.html</a></p>
 <p>names appended with _t1w for MP2RAGE, _rest should be in most of these resting-state fMRI metric names in csv</p>
@@ -104,7 +160,7 @@ GlobalEfficiencyaal116scrub</p>
 </section>
 </section>
 <section id="preparing-your-dataset-for-sharing">
-<h3>Preparing your dataset for sharing<a class="headerlink" href="#preparing-your-dataset-for-sharing" title="Permalink to this headline">¶</a></h3>
+<h3>Preparing your dataset for sharing<a class="headerlink" href="#preparing-your-dataset-for-sharing" title="Permalink to this headline"></a></h3>
 <p>An optional script is included in this repository for running pydeface on your BIDS dataset.
 This facilitates sharing data on databanks by removing identifying facial features from each image.
 You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface when running the script:</p>
@@ -116,91 +172,34 @@ You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface w
 </section>
 
 
+           </div>
           </div>
-          
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Sub-Pipelines.html" class="btn btn-neutral float-right" title="Sub-Pipelines" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">BIC 3T MRI Pipeline HPC</a></h1>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
 
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="About.html">About</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Main Pipeline</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#inputs">Inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#preprocessing-derivatives">Preprocessing derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analyses-derivatives">Analyses derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#metrics">Metrics:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="Usage.html" title="previous chapter">Usage</a></li>
-      <li>Next: <a href="Sub-Pipelines.html" title="next chapter">Sub-Pipelines</a></li>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.4.0</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
-      
-      |
-      <a href="_sources/Main-Pipeline.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+</body>
 </html>
