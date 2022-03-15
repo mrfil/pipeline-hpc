@@ -11,11 +11,6 @@ and leverage BIDS-Apps to perform quality control, preprocessing, and automated 
 The main Pipeline takes 3T brain MRI DICOMs and outputs BIDS sourcedata, preprocessed derivatives, resting-state functional connectivity and structural connectivity matrices, basic network-based statistics, and hippocampal subfield segmentation via BIDS App Singularity containers. 
 While developed for Slurm control systems, the shell scripts here should be compatible with CentOS-derived Linux clusters.
 
-The input DICOM dataset for your project should be somewhat organized to facilitate batch conversion to BIDS according to your heuristic.py
-
-Example: ::
-    placeholder
-
 Our :ref:`Installation Guide<Install>` provides details on installing the following requirements:
 
 .. hlist::
