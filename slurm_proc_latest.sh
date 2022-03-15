@@ -372,7 +372,7 @@ else
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep started $NOW" >> ${scripts}/fulltimer.txt
 
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --freesurfer-input /data/bids/derivatives/fmriprep/freesurfer --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 
 		chmod 777 -R ${projDir}/bids/derivatives/qsiprep
 		${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} QSIprep ${based}
@@ -380,7 +380,7 @@ else
 		echo "QSIprep finished $NOW" >> ${scripts}/fulltimer.txt
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep CSD Recon started $NOW" >> ${scripts}/fulltimer.txt
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt_ACT-hsvs --freesurfer-input /data/bids/derivatives/fmriprep/freesurfer --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep CSD Recon finished $NOW" >> ${scripts}/fulltimer.txt
 		chmod 777 -R ${projDir}/bids/derivatives/qsirecon
@@ -394,7 +394,7 @@ else
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep GQI Recon started $NOW" >> ${scripts}/fulltimer.txt
 
-                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec dsi_studio_gqi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec dsi_studio_gqi --freesurfer-input /data/bids/derivatives/fmriprep/freesurfer --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep GQI Recon finished $NOW" >> ${scripts}/fulltimer.txt
                 chmod 777 -R ${projDir}/bids/derivatives/qsirecon
@@ -405,7 +405,7 @@ else
 
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep NODDI AMICO Recon started $NOW" >> ${scripts}/fulltimer.txt
-                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec amico_noddi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec amico_noddi --freesurfer-input /data/bids/derivatives/fmriprep/freesurfer --fs-license-file /opt/freesurfer/license.txt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
                 NOW=$(date +"%m-%d-%Y-%T")
                	echo "QSIprep NODDI Recon finished $NOW" >> ${scripts}/fulltimer.txt
                 chmod 777 -R ${projDir}/bids/derivatives/qsirecon
@@ -421,7 +421,7 @@ else
 		
 		NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep reorient_fslstd Recon started $NOW" >> ${scripts}/fulltimer.txt
-                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --freesurfer-input /data/bids/derivatives/fmriprep/freesurfer --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
                 NOW=$(date +"%m-%d-%Y-%T")
                	echo "QSIprep reorient_fslstd Recon finished $NOW" >> ${scripts}/fulltimer.txt
                 echo "See docs for details on running SCFSL DTI probabilistic tractography (CUDA 10.2 GPU required)"
