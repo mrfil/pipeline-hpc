@@ -19,8 +19,8 @@ BIDS-App containers
 Examples of how to run each containerized BIDS-App used in our pipeline
 
 
-MRIQC
-=====
+MRIQC - Anatomical & Functional Quality Control
+***********************************************
 
 .. code-block:: bash
     docker run -v ${IMAGEDIR}:/imgdir -v ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME} -v ${stmpdir}:/paulscratch -v ${projDir}/bids:/data -v ${projDir}/bids/derivatives/mriqc:/out ${IMAGEDIR}/mriqc-0.16.1.sif /data /out participant --participant-label ${CLEANSUBJECT} --session-id ${CLEANSESSION} -v --no-sub -w /paulscratch
@@ -29,10 +29,8 @@ MRIQC
 
     singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},${stmpdir}:/paulscratch,${projDir}/bids:/data,${projDir}/bids/derivatives/mriqc:/out ${IMAGEDIR}/mriqc-0.16.1.sif /data /out participant --participant-label ${CLEANSUBJECT} --session-id ${CLEANSESSION} -v --no-sub
 
-fMRIPrep
-========
-
-Anatomical and functional image preprocessing
+fMRIPrep - Anatomical & Functional Preprocessing
+************************************************
 
 .. code-block:: bash
 
@@ -53,18 +51,18 @@ Anatomical and functional image preprocessing
     singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-v21.0.0.sif fmriprep /datain/bids /datain/bids/derivatives/fmriprep participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --anat-only -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 
 
-XCPEngine
-=========
+XCPEngine - Correlation-based resting-state functional connectivity analysis
+****************************************************************************
 
 Correlation-based resting-state functional connectivity analysis in multiple atlases.
 Amplitude of Low Frequency Fluctuations (ALFF) and regional homogeneity (REHO) also quantified for each parcellation
 
-QSIPrep
-=======
+QSIPrep - DWI preprocessing and reconstruction
+**********************************************
 
 Using the structural images and fieldmaps, we perform diffusion-weighted-image preprocessing and structural connectivity analysis in multiple atlases
 
-Preprocessing
+*Preprocessing*
 
 .. code-block:: bash
 
@@ -74,7 +72,7 @@ Preprocessing
 
     singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.14.3.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 1.6 -w /paulscratch participant --participant-label ${subject}
 
-Reconstruction
+*Reconstruction*
 
 Constrained Spherical Deconvolution-based multi-shell multi-tissue w/ SIFT2 via MRtrix3 reconstruction workflow
 
@@ -130,5 +128,81 @@ NODDI via AMICO python implementation
 
     #ROI-wise stats       
     singularity run --cleanenv --bind ${scripts}:/scripts,${projDir}/bids/derivatives/qsirecon/${subject}/${sesname}/dwi:/datanoddi ${IMAGEDIR}/neurodoc.sif /scripts/noddi_stats.sh "$subject" "$sesname"
+
+
+FSL DTI probabilistic tractography from QSIPrep Preprocessing 
+*************************************************************
+
+.. note::
+    Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt
+
+
+QSIPrep preprocessing reorient to FSL space:
+============================================
+
+.. code-block:: bash
+
+    #run reconstruction workflow in QSIPrep
+    docker run -v ${IMAGEDIR}:/imgdir -v ${stmpdir}:/paulscratch -v ${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 1.6 -w /paulscratch participant --participant-label ${subject}
+
+.. code-block:: bash
+
+    #run reconstruction workflow in QSIPrep
+    singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 1.6 -w /paulscratch participant --participant-label ${subject}
+
+
+CUDA 10.2-accelerated FDT pipeline
+==================================
+
+Usage: 
+
+.. code-block:: bash
+    # Running SCFSL GPU tractography
+    docker exec --gpus all -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64 \
+    -v /path/to/freesurfer/license.txt:/opt/freesurfer/license.txt \
+    -v /path/project/bids:/data mrfilbi/scfsl_gpu:0.3.2 /bin/bash /scripts/proc_fsl_connectome_fsonly.sh ${subject} ${session}
+
+.. code-block:: bash
+    # Running SCFSL GPU tractography
+    SINGULARITY_ENVLD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64 \
+    singularity exec --nv -B /path/to/freesurfer/license.txt:/opt/freesurfer/license.txt,/path/project/bids:/data \
+    /path/to/scfsl_gpu-v0.3.2.sif /bin/bash /scripts/proc_fsl_connectome_fsonly.sh ${subject} ${session}
+
+*Outputs*
+
+In addition to the fdt_network_matrix produced by probtrackx2 for the masks 
+derived from Freesurfer parcellation (generated in sMRIPrep/fMRIPrep),
+this sub-pipeline also outputs node-labeled csv files of the NxN streamline-weighted 
+and ROI volume-weighted structural connectome.
+
+*Performance*
+
+From testing 30 datasets from 3T 2.0mm isotropic CMRR DWI):
+
+.. list-table:: Benchmark with 3T DWI data
+   :widths: 20 20 30 50 20 20 
+   :header-rows: 1
+
+   * - Host OS
+     - CUDA Version
+     - GPU
+     - CPU
+     - RAM
+     - Run time
+   * - CentOS
+     - 9.1
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+   * - CentOS
+     - 10.2
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+
+
+Peak GPU memory usage: 13999MiB / 16160MiB
 
 
