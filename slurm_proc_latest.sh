@@ -418,6 +418,13 @@ else
 		mkdir $projDir/bids/derivatives/fsl/${subject}
 		mkdir $projDir/bids/derivatives/fsl/${subject}/${sesname}
 		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv --bind ${projDir}/bids/derivatives/fsl/${subject}/${sesname}:/fslin --bind ${projDir}/bids/derivatives/qsiprep/${subject}/${sesname}/dwi:/datain $IMAGEDIR/fsl_601.sif dtifit -k /datain/${subject}_${sesname}_run-1_space-T1w_desc-preproc_dwi.nii.gz -o /fslin/sub-SAY244_ses-A_run-1_space-T1w_desc-DTIFIT -m /datain/${subject}_${sesname}_run-1_space-T1w_desc-brain_mask.nii.gz -r /datain/${subject}_${sesname}_run-1_space-T1w_desc-preproc_dwi.bvec -b /datain/${subject}_${sesname}_run-1_space-T1w_desc-preproc_dwi.bval --kurt --save_tensor
+		
+		NOW=$(date +"%m-%d-%Y-%T")
+                echo "QSIprep reorient_fslstd Recon started $NOW" >> ${scripts}/fulltimer.txt
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
+                NOW=$(date +"%m-%d-%Y-%T")
+               	echo "QSIprep reorient_fslstd Recon finished $NOW" >> ${scripts}/fulltimer.txt
+                echo "See docs for details on running SCFSL DTI probabilistic tractography (CUDA 10.2 GPU required)"
 
 	fi
 fi
