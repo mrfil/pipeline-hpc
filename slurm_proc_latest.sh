@@ -201,10 +201,10 @@ else
 	${scripts}/project_doc.sh ${project} ${subject} ${sesname} "fmriprep" "no"
 	if [ "${longitudinal}" == "yes" ];
 	then 
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.6.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-21.0.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 	elif [ "${longitudinal}" == "no" ];
 	then
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-20.2.6.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-21.0.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 	fi
 
 
