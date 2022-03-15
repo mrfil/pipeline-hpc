@@ -52,4 +52,15 @@ The Original Beckman Processing Pipeline Working Group:
 
 Many BIDS-Apps have their own boilerplate text and citations:
 
-List links here!
+
+Many BIDS-Apps have their own boilerplate text and citations:
+
+`HeuDiConv<https://zenodo.org/record/5557588>`
+
+`MRIQC<https://mriqc.readthedocs.io/en/latest/#citation>`
+
+`fMRIPrep<https://fmriprep.org/en/stable/outputs.html>`
+
+`xcpEngine<https://github.com/PennLINC/xcpEngine/#overview>`
+
+`QSIPrep<https://qsiprep.readthedocs.io/en/latest/citing.html>`
