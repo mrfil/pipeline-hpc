@@ -31,11 +31,9 @@ This following commands can be used to build these required images for the pipel
 
     singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
     singularity build heudiconv-0.9.sif docker://nipy/heudiconv:0.9.0
-    singularity build fmriprep-v20.2.6.sif docker://nipreps/fmriprep:21.0.0
-    singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
-    singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
-    #for reorient_fslstd to prepare for SCFSL_GPU
-    singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.15.1
+    singularity build fmriprep-v21.0.1.sif docker://nipreps/fmriprep:21.0.1
+    singularity build xcpengine-1.2.4.sif docker://pennbbl/xcpengine:1.2.4
+    singularity build qsiprep-v0.15.1.sif docker://pennbbl/qsiprep:0.15.1
 
     # See README.md for more information on 
     # provided def files for ubuntu-jq, python3
