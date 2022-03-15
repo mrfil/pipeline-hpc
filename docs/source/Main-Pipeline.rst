@@ -114,3 +114,49 @@ You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface w
 .. code-block:: bash
 
     ./singularity_deface_bids.sh -p <Project ID> -m <"T1w T2w FLAIR ..."> -b <base directory for pipeline> -t <version of pipeline>
+
+
+FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)
+========================================================================
+
+.. note::
+    Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt
+    
+    This workflow is intended to run on machines with CUDA 9.1 or CUDA 10.2 compatible GPUs.
+
+*Outputs*
+
+In addition to the fdt_network_matrix produced by probtrackx2 for the masks 
+derived from Freesurfer parcellation (generated in sMRIPrep/fMRIPrep),
+this sub-pipeline also outputs node-labeled csv files of the NxN streamline-weighted 
+and ROI volume-weighted structural connectome.
+
+*Performance*
+
+From testing 30 datasets from 3T 2.0mm isotropic CMRR DWI):
+
+.. list-table:: Benchmark with 3T DWI data
+   :widths: 20 20 30 50 20 20 
+   :header-rows: 1
+
+   * - Host OS
+     - CUDA Version
+     - GPU
+     - CPU
+     - RAM
+     - Run time
+   * - CentOS
+     - 9.1
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+   * - CentOS
+     - 10.2
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+
+
+Peak GPU memory usage: 13999MiB / 16160MiB
