@@ -244,7 +244,7 @@ else
 		$scripts/project_doc.sh ${project} ${subject} ${sesname} "xcpengine" "no"
 		cp ${scripts}/xcpEngineDesigns/*_gh.dsn ${projDir}/
 		cd ${projDir}
-		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.3.sif -d /data/fc-36p_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_minimal_func -r /data/bids -i /tmpdir
+		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif -d /data/fc-36p_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_minimal_func -r /data/bids -i /tmpdir
 		chmod 2777 -R ${projDir}/bids/derivatives/xcp*
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/*quality.csv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/${subject}_${sesname}_quality_fc36p.csv
 		${scripts}/procd.sh ${project} xcp no ${subject} ${based}
@@ -270,7 +270,7 @@ else
         #xcpEngine 36p despike
         $scripts/project_doc.sh ${project} ${subject} ${sesname} "xcpengine" "no"
         cd ${projDir}
-        SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.3.sif -d /data/fc-36p_despike_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_despike -r /data/bids -i /tmpdir
+        SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif -d /data/fc-36p_despike_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_despike -r /data/bids -i /tmpdir
         chmod 2777 -R ${projDir}/bids/derivatives/xcp*
         mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_despike/${subject}/*quality.csv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/${subject}_${sesname}_quality_despike.csv
 
@@ -290,7 +290,7 @@ else
 
 		#xcpEngine 36p_scrub
 		cd ${projDir}
-		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.3.sif -d /data/fc-36p_scrub_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_scrub -r /data/bids -i /tmpdir
+		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif -d /data/fc-36p_scrub_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_scrub -r /data/bids -i /tmpdir
 		chmod 2777 -R /projects/BICpipeline/Pipeline_Pilot/TestingFork/${project}/bids/derivatives/xcp*
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_scrub/${subject}/*quality.csv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_func/${subject}/${subject}_${sesname}_quality_scrub.csv
 
@@ -312,7 +312,7 @@ else
 		#xcpEngine aroma
 		$scripts/project_doc.sh ${project} ${subject} ${sesname} "xcpengine" "no"
 		cd ${projDir}
-		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.3.sif -d /data/fc-aroma_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma -r /data/bids -i /tmpdir
+		SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif -d /data/fc-aroma_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma -r /data/bids -i /tmpdir
 		chmod 2777 -R ${projDir}/bids/derivatives/xcp*
 		mv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/*quality.csv ${projDir}/bids/derivatives/xcp/${sesname}/xcp_minimal_aroma/${subject}/${subject}_${sesname}_quality_aroma.csv 
 
@@ -348,7 +348,7 @@ else
                 sed -i "s+SAY244+${num}+g" design.fsf
                 cd ${projDir}
                 mkdir ${projDir}/bids/derivatives/xcp/${sesname}/xcp_36p_nback
-                SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.3.sif -d /data/task.dsn -c /data/cohort_func_task-nback_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_36p_nback -r /data/bids -i /tmpdir
+                SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif -d /data/task.dsn -c /data/cohort_func_task-nback_${subject}_${sesname}.csv -o /data/bids/derivatives/xcp/${sesname}/xcp_36p_nback -r /data/bids -i /tmpdir
                 chmod 2777 -R ${projDir}/bids/derivatives/xcp*
 
 	
@@ -372,7 +372,7 @@ else
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep started $NOW" >> ${scripts}/fulltimer.txt
 
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.14.2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 
 		chmod 777 -R ${projDir}/bids/derivatives/qsiprep
 		${scripts}/pdf_printer.sh ${project} ${subject} ${sesname} QSIprep ${based}
@@ -380,7 +380,7 @@ else
 		echo "QSIprep finished $NOW" >> ${scripts}/fulltimer.txt
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep CSD Recon started $NOW" >> ${scripts}/fulltimer.txt
-		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.14.2.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+		SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec mrtrix_multishell_msmt --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
 		NOW=$(date +"%m-%d-%Y-%T")
 		echo "QSIprep CSD Recon finished $NOW" >> ${scripts}/fulltimer.txt
 		chmod 777 -R ${projDir}/bids/derivatives/qsirecon
@@ -394,7 +394,7 @@ else
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep GQI Recon started $NOW" >> ${scripts}/fulltimer.txt
 
-                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.14.3.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec dsi_studio_gqi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec dsi_studio_gqi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject}
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep GQI Recon finished $NOW" >> ${scripts}/fulltimer.txt
                 chmod 777 -R ${projDir}/bids/derivatives/qsirecon
@@ -405,7 +405,7 @@ else
 
                 NOW=$(date +"%m-%d-%Y-%T")
                 echo "QSIprep NODDI AMICO Recon started $NOW" >> ${scripts}/fulltimer.txt
-                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.14.3.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec amico_noddi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
+                SINGULARITY_CACHEDIR=${scachedir} SINGULARITY_TMPDIR=${stmpdir} singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec amico_noddi --output-resolution 2.5 -w /paulscratch participant --participant-label ${subject} 
                 NOW=$(date +"%m-%d-%Y-%T")
                	echo "QSIprep NODDI Recon finished $NOW" >> ${scripts}/fulltimer.txt
                 chmod 777 -R ${projDir}/bids/derivatives/qsirecon
