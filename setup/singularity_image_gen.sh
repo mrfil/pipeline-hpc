@@ -17,6 +17,9 @@ singularity build fmriprep-20.2.6.sif docker://nipreps/fmriprep:20.2.6
 singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
 singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
 singularity build bidsphysio.sif docker://cbinyu/bidsphysio
+#for reorient_fslstd to prepare for SCFSL_GPU
+singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.15.1
+
 
 # See README.md for more information on 
 #provide def files for ubuntu-jq, python3
@@ -47,6 +50,15 @@ docker push localhost:5000/html2pdf:79.1
 cd ../
 SINGULARITY_NOHTTPS=1 singularity build html2pdf.sif docker://localhost:5000/html2pdf:79.1
 
+## Prerequisites
+#The following examples use the CUDA 10.2 toolkit and runtime (loaded via module or native install)
+git clone https://github.com/mrfil/scfsl.git
+cd ./scfsl
+docker build -t scfsl_gpu:0.3.2 -t localhost:5000/scfsl_gpu:0.3.2 .
+cd ../
+docker push localhost:5000/scfsl_gpu:0.3.2
+SINGULARITY_NOHTTPS=1 singularity build scfsl_gpu-v0.3.2.sif docker://localhost:5000/scfsl_gpu:0.3.2
+     
 # https://github.com/mathworks-ref-arch/matlab-dockerfile
 git clone https://github.com/mathworks-ref-arch/matlab-dockerfile.git
 mkdir ./matlab-dockerfile/matlab-install
