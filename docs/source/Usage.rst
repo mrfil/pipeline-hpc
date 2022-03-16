@@ -4,7 +4,7 @@
 Usage
 -----
 
-We designed this pipeline to use a `Slurm<https://slurm.schedmd.com/>`-managed high-performance computing cluster.
+We designed this pipeline to use a `Slurm <https://slurm.schedmd.com/>`_-managed high-performance computing cluster.
 The main pipeline takes MRI data in DICOM format and utilizes BIDS-Apps to output common preprocessing 
 derivatives, processed derivatives, connectivity analyses, and other quantified microstructure measures and images. 
 
@@ -12,7 +12,7 @@ Setup for this pipeline is not currently automated due to the nature of building
 We assume here that you have followed the `installation guide<Install>` to make your Singularity images and transferred them to the cluster you are using.
 
 Once you have your DICOMs in a consistent directory structure (i.e. project/participant/session/series/DICOM/*dcm),
-you can start modifying your :ref:`heuristic.py<Heuristics>` file (here named ${project}_heuristic.py). With your final heuristic,
+you can start modifying your :ref:`heuristic.py <Heuristics>`_ file (here named ${project}_heuristic.py). With your final heuristic,
 you are ready to run the first part of the pipeline:
 
 You should have an array of participant ID numbers (maximum is three digits for sbatch) for your study.
