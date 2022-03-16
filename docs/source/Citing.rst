@@ -55,12 +55,12 @@ Many BIDS-Apps have their own boilerplate text and citations:
 
 Many BIDS-Apps have their own boilerplate text and citations:
 
-`HeuDiConv<https://zenodo.org/record/5557588>`
+`HeuDiConv <https://zenodo.org/record/5557588>`_
 
-`MRIQC<https://mriqc.readthedocs.io/en/latest/#citation>`
+`MRIQC <https://mriqc.readthedocs.io/en/latest/#citation>`_
 
-`fMRIPrep<https://fmriprep.org/en/stable/outputs.html>`
+`fMRIPrep <https://fmriprep.org/en/stable/outputs.html>`_
 
-`xcpEngine<https://github.com/PennLINC/xcpEngine/#overview>`
+`xcpEngine <https://github.com/PennLINC/xcpEngine/#overview>`_
 
-`QSIPrep<https://qsiprep.readthedocs.io/en/latest/citing.html>`
+`QSIPrep <https://qsiprep.readthedocs.io/en/latest/citing.html>`_
