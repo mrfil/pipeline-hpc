@@ -76,13 +76,13 @@ Amplitude of Low Frequency Fluctuations (ALFF) and regional homogeneity (REHO) a
 Setup XCPEngine Workflow
 ========================
 
-You must first create your `cohort csv<https://xcpengine.readthedocs.io/config/cohort.html#functional-processing>` to specify image id tags and which images to ingress for processing. We create these as part of the pipeline with:
+You must first create your `cohort csv <https://xcpengine.readthedocs.io/config/cohort.html#functional-processing>`_ to specify image id tags and which images to ingress for processing. We create these as part of the pipeline with:
 
 .. code-block:: bash
    
    func_cohort_maker.sh ${subject} ${sesname} yes
 
-You will also need `design files<https://xcpengine.readthedocs.io/config/design.html#pipeline-design-file>` for your desired XCPEngine pipeline (`available here<https://github.com/PennLINC/xcpEngine/tree/master/designs>`)
+You will also need `design files <https://xcpengine.readthedocs.io/config/design.html#pipeline-design-file>`_ for your desired XCPEngine pipeline (`available here <https://github.com/PennLINC/xcpEngine/tree/master/designs>`_)
 
 
 Running XCPEngine Workflow
@@ -99,7 +99,7 @@ Running XCPEngine Workflow
    singularity run --bind ${scripts}/spm12:/spmtoolbox,${scripts}/matlab:/work,${scripts}/2019_03_03_BCT:/bctoolbox,${projDir}/bids/derivatives/xcp/${sesname}:/datain \
    ${IMAGEDIR}/matlab-R2019a.sif /work/rsfcnbs.sh "xcp_despike" "${subject}"
    
-A `more detailed tutorial<https://xcpengine.readthedocs.io/config/tutorial.html>` is available in the `XCPEngine documentation<https://xcpengine.readthedocs.io/index.html>`
+A `more detailed tutorial <https://xcpengine.readthedocs.io/config/tutorial.html>`_ is available in the `XCPEngine documentation <https://xcpengine.readthedocs.io/index.html>`_
 
 QSIPrep - DWI preprocessing and reconstruction
 **********************************************
