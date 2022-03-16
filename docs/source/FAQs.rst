@@ -14,7 +14,7 @@ From a Dockerfile:
     cd path/to/Dockerfile
     docker build -t organization/image:tag .
     
-`More information <https://docs.docker.com/engine/reference/builder/#format>`
+`More information <https://docs.docker.com/engine/reference/builder/#format>`_
 
 Example Dockerfile:
 
@@ -52,7 +52,7 @@ From a Docker repository:
 How to build with Singularity
 -----------------------------
 
-From a `def recipe file<https://singularity-userdoc.readthedocs.io/en/latest/container_recipes.html​>` (requires sudo on most systems, some can bypass with --fakeroot):
+From a `def recipe file <https://singularity-userdoc.readthedocs.io/en/latest/container_recipes.html>`_ (requires sudo on most systems, some can bypass with --fakeroot):
 
 .. code-block:: bash
 
