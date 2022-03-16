@@ -18,11 +18,27 @@ BIDS-App containers
 
 Examples of how to run each containerized BIDS-App used in our pipeline
 
+The following variables must be set to those for your file structure on your machine:
+
+IMAGEDIR : The location of singularity_images built for the pipeline
+TEMPLATEFLOW_HOST_HOME : The location of a local copy of the TemplateFlow data to prevent errors fetching a copy 
+stmpdir & TMPSING : (Interchangeable) locations of a tmp directory for Singularity to use
+scachedir & CACHESING : (Interchangeable) locations of a cache directory for Singularity to use
+projDir : The location of your project's data. This includes bids as a subdirectory.
+CLEANSUBJECT : Participant label without "sub-" prefix
+CLEANSESSION : Session label without "ses-" prefix
+subject : BIDS style participant label with "sub-" prefix
+sesname & session : BIDS style session label with "ses-" prefix
+scripts : The location of the pipeline scripts
+
+.. note::
+    The above are all set via the pipeline script based on argument inputs from the shell command. 
 
 MRIQC - Anatomical & Functional Quality Control
 ***********************************************
 
 .. code-block:: bash
+
     docker run -v ${IMAGEDIR}:/imgdir -v ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME} -v ${stmpdir}:/paulscratch -v ${projDir}/bids:/data -v ${projDir}/bids/derivatives/mriqc:/out ${IMAGEDIR}/mriqc-0.16.1.sif /data /out participant --participant-label ${CLEANSUBJECT} --session-id ${CLEANSESSION} -v --no-sub -w /paulscratch
 
 .. code-block:: bash
@@ -56,6 +72,34 @@ XCPEngine - Correlation-based resting-state functional connectivity analysis
 
 Correlation-based resting-state functional connectivity analysis in multiple atlases.
 Amplitude of Low Frequency Fluctuations (ALFF) and regional homogeneity (REHO) also quantified for each parcellation
+
+Setup XCPEngine Workflow
+========================
+
+You must first create your `cohort csv<https://xcpengine.readthedocs.io/config/cohort.html#functional-processing>` to specify image id tags and which images to ingress for processing. We create these as part of the pipeline with:
+
+.. code-block:: bash
+   
+   func_cohort_maker.sh ${subject} ${sesname} yes
+
+You will also need `design files<https://xcpengine.readthedocs.io/config/design.html#pipeline-design-file>` for your desired XCPEngine pipeline (`available here<https://github.com/PennLINC/xcpEngine/tree/master/designs>`)
+
+
+Running XCPEngine Workflow
+==========================
+
+.. code-block:: bash
+   
+   #running processing
+   singularity run --cleanenv -B ${projDir}:/data,$TMPSING:/tmpdir $IMAGEDIR/xcpengine-1.2.4.sif \
+   -d /data/fc-36p_despike_gh.dsn -c /data/cohort_func_${subject}_${sesname}.csv \
+   -o /data/bids/derivatives/xcp/${sesname}/xcp_despike -r /data/bids -i /tmpdir 
+   
+   #get network-based statistics using matlab-R2019a.sif image & script from pipeline
+   singularity run --bind ${scripts}/spm12:/spmtoolbox,${scripts}/matlab:/work,${scripts}/2019_03_03_BCT:/bctoolbox,${projDir}/bids/derivatives/xcp/${sesname}:/datain \
+   ${IMAGEDIR}/matlab-R2019a.sif /work/rsfcnbs.sh "xcp_despike" "${subject}"
+   
+A `more detailed tutorial<https://xcpengine.readthedocs.io/config/tutorial.html>` is available in the `XCPEngine documentation<https://xcpengine.readthedocs.io/index.html>`
 
 QSIPrep - DWI preprocessing and reconstruction
 **********************************************
