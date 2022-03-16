@@ -46,6 +46,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
 </ul>
@@ -83,7 +84,13 @@
 <li class="toctree-l2"><a class="reference internal" href="About.html#the-bids-format-and-bids-app-pipelines">The BIDS format and BIDS-App pipelines</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Usage.html#running-on-one-node">Running on one node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usage.html#running-freesurfer-informed-fsl-dti-tractography-on-gpu">Running FreeSurfer-informed FSL DTI tractography on GPU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usage.html#metrics-collation">Metrics Collation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Usage.html#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Main-Pipeline.html">Main Pipeline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#inputs">Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#outputs">Outputs</a><ul>
@@ -91,16 +98,18 @@
 <li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#analyses-derivatives">Analyses derivatives</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#metrics">Metrics:</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Sub-Pipelines.html#bids-app-containers">BIDS-App containers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#mriqc">MRIQC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#fmriprep">fMRIPrep</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#xcpengine">XCPEngine</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#qsiprep">QSIPrep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#mriqc-anatomical-functional-quality-control">MRIQC - Anatomical &amp; Functional Quality Control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#fmriprep-anatomical-functional-preprocessing">fMRIPrep - Anatomical &amp; Functional Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#xcpengine-correlation-based-resting-state-functional-connectivity-analysis">XCPEngine - Correlation-based resting-state functional connectivity analysis</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#qsiprep-dwi-preprocessing-and-reconstruction">QSIPrep - DWI preprocessing and reconstruction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing">FSL DTI probabilistic tractography from QSIPrep Preprocessing</a></li>
 </ul>
 </li>
 </ul>
@@ -113,6 +122,18 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-building">Container building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#singularity-cache-and-tmp">Singularity cache and tmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#squashfs-tools">SquashFS-tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-running">Container running</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#templateflow">TemplateFlow</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Citing.html#the-original-beckman-processing-pipeline-working-group">The Original Beckman Processing Pipeline Working Group:</a></li>
 </ul>

@@ -45,6 +45,7 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
 </ul>
@@ -75,6 +76,13 @@
              
   <section id="manual-correction">
 <span id="id1"></span><h1>Manual-Correction<a class="headerlink" href="#manual-correction" title="Permalink to this headline"></a></h1>
+<p>If you want to re-run the pipeline with manually corrected FreeSurfer output,
+please make a copy of the original data and then replace the FreeSurfer directory
+in the bids/derivatives folder of your project.</p>
+<p>You can then re-run a portion of the pipeline with the relevant arguments supplying
+your manually corrected FreeSurfer reconstructions:</p>
+<p><cite>QSIPrep&lt;https://qsiprep.readthedocs.io/en/latest/usage.html#Options%20for%20reconstructing%20qsiprep%20outputs&gt;</cite> : –freesurfer-input /path/to/bids/derivatives/freesurfer
+<cite>fMRIPrep&lt;https://fmriprep.org/en/stable/usage.html#Specific%20options%20for%20FreeSurfer%20preprocessing&gt;</cite> : –fs-subjects-dir /path/to/bids/derivatives/freesurfer</p>
 </section>
 
 
