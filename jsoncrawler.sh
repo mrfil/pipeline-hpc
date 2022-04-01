@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #single-sub single-session script for adding intended for statements to fmap jsons before running BIDS apps
-#
+# requires JQ
 #usage: jsoncrawler.sh {bids directory} {session} {subject}
 #
 #pbc
@@ -10,7 +10,6 @@
 sesname=$2
 seslen=${#sesname}
 sub=$3
-intend='"IntendedFor": '
 
 seshs=($1/${sub}/${sesname})
 for sesh in ${seshs[@]}; do
@@ -20,21 +19,15 @@ restfuncs=(./func/*rest*bold*nii.gz)
 
 	for restfuncmap in ${restfuncmaps[@]}; do
 	img=${restfuncs:1}
-	jq .IntendedFor $restfuncmap > tmpj
+	jq '.IntendedFor' $restfuncmap > tmpj
 	if [[ $(cat tmpj) == "${sesname}${img}" ]];
 	then
 		echo "IntendedFor found as "${sesname}$img""
 		exit 0
 	else
-		printf "  " > test.txt
-		printf $intend >> test.txt
-		printf " " >> test.txt
-		printf '"' >> test.txt
-		printf "${sesname}""$img"  >> test.txt
-		printf '",' >> test.txt
-		echo "" >> test.txt
-		echo "" > tmp
-		awk 'NR==1{a=$0}NR==FNR{next}FNR==32{print a}1' test.txt $restfuncmap >> tmp && mv tmp $restfuncmap
+		# replace the following with jq or jo 
+		cat $restfuncmap | jq '.IntendedFor |= "${sesname}$img"' > tmp
+		mv tmp $restfuncmap
 	fi
 done
 
@@ -48,22 +41,8 @@ taskfuncs=`find ./func -maxdepth 2 -type f \( -iname "*nback*bold*nii.gz" -a -no
 	task="*nback*"
 	if [[ "$img" == "$task" ]];
 	then
-#		jq .IntendedFor $taskfuncmap > tmpj
-#		if [[ "`cat tmpj`" == "${sesname}$img" ]];
-#		then
-#			echo "IntendedFor found as "${sesname}$img""
-#			exit 0
-#		else
-			printf "  " > test.txt
-	       	printf $intend >> test.txt
-        	printf " " >> test.txt
-        	printf '"' >> test.txt
-        	printf "${sesname}""$img"  >> test.txt
-        	printf '",' >> test.txt
-        	echo "" >> test.txt
-        	echo "" > tmp
-        	awk 'NR==1{a=$0}NR==FNR{next}FNR==32{print a}1' test.txt $taskfuncmap >> tmp && mv tmp $taskfuncmap     
-        
+		cat $taskfuncmap | jq '.IntendedFor |= "${sesname}$img"' > tmp
+		mv tmp $taskfuncmap
 	fi
 done
 
@@ -72,25 +51,16 @@ dwis=(./dwi/*dwi*nii.gz)
 
 	for dwimap in ${dwimaps[@]}; do
 	img=${dwis:1}
-		jq .IntendedFor $dwimap > tmpj
+		jq '.IntendedFor' $dwimap > tmpj
 		if [[ $(cat tmpj) == "${sesname}$img" ]];
 		then
 			echo "IntendedFor found as "${sesname}$img""
 			exit 0
 		else
-			printf "  " > test.txt
-        	printf $intend >> test.txt
-        	printf " " >> test.txt
-        	printf '"' >> test.txt
-        	printf "${sesname}""$img"  >> test.txt
-        	printf '",' >> test.txt
-        	echo "" >> test.txt
-        	echo "" > tmp
-        	awk 'NR==1{a=$0}NR==FNR{next}FNR==32{print a}1' test.txt $dwimap >> tmp && mv tmp $dwimap
+			cat $dwimap | jq '.IntendedFor |= "${sesname}$img"' > tmp
+            mv tmp $dwimap
 		fi
 done
 done
 
-rm -f test.txt
-rm -f tmp
 rm -f tmpj

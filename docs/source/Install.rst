@@ -13,7 +13,6 @@ To get started with the pipeline, please install the following requirements:
     * Brain Connectivity Toolbox for Matlab (https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0) 
     * xcpEngine dsn files (https://github.com/PennBBL/xcpEngine/tree/master/designs) 
     * ASHS (https://sites.google.com/site/hipposubfields/) 
-    * LAYNII (https://github.com/layerfMRI/LAYNII) 
     * bidsphysio (https://github.com/cbinyu/bidsphysio)
 
 You will need to install git, to clone the build recipe files from this repository.
@@ -31,17 +30,14 @@ This following commands can be used to build these required images for the pipel
 
     singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
     singularity build heudiconv-0.9.sif docker://nipy/heudiconv:0.9.0
-    singularity build fmriprep-v20.2.6.sif docker://nipreps/fmriprep:21.0.0
-    singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
-    singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
-    #for reorient_fslstd to prepare for SCFSL_GPU
-    singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.15.1
+    singularity build fmriprep-v21.0.1.sif docker://nipreps/fmriprep:21.0.1
+    singularity build xcpengine-1.2.4.sif docker://pennbbl/xcpengine:1.2.4
+    singularity build qsiprep-v0.15.1.sif docker://pennbbl/qsiprep:0.15.1
 
     # See README.md for more information on 
     # provided def files for ubuntu-jq, python3
-    SINGULARITY_NOHTTPS=1 singularity build ubuntu-jq-0.1.sif defjq
+    SINGULARITY_NOHTTPS=1 singularity build ubuntu-jqjo.sif jqjo.def
     SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
-    SINGULARITY_NOHTTPS=1 singularity build laynii-2.0.0.sif layniidef
     SINGULARITY_NOHTTPS=1 singularity build ashs-1.0.0.sif ashsdef
 
     #Start Docker registry for localhost

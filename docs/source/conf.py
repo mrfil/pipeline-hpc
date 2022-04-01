@@ -21,7 +21,7 @@ copyright = '2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T
 author = 'Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.0'
+release = '0.3.0'
 
 
 # -- General configuration ---------------------------------------------------

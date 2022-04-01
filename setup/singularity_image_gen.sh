@@ -13,17 +13,16 @@ cd ./singularity_images
 
 singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
 singularity build heudiconv-0.9.0.sif docker://nipy/heudiconv:0.9.0
-singularity build fmriprep-20.2.6.sif docker://nipreps/fmriprep:20.2.6
-singularity build xcpengine-1.2.3.sif docker://pennbbl/xcpengine:1.2.3
-singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.14.3
+singularity build fmriprep-21.0.1.sif docker://nipreps/fmriprep:21.0.1
+singularity build xcpengine-1.2.4.sif docker://pennbbl/xcpengine:1.2.4
 singularity build bidsphysio.sif docker://cbinyu/bidsphysio
 #for reorient_fslstd to prepare for SCFSL_GPU
-singularity build qsiprep-v0.14.3.sif docker://pennbbl/qsiprep:0.15.1
+singularity build qsiprep-v0.15.1.sif docker://pennbbl/qsiprep:0.15.1
 
 
 # See README.md for more information on 
 #provide def files for ubuntu-jq, python3
-sudo SINGULARITY_NOHTTPS=1 singularity build ubuntu-jq-0.1.sif defjq
+sudo SINGULARITY_NOHTTPS=1 singularity build ubuntu-jqjo.sif jqjo.def
 sudo SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
 sudo SINGULARITY_NOHTTPS=1 singularity build bidscoin.sif bidscoindef
 sudo SINGULARITY_NOHTTPS=1 singularity build laynii-2.0.0.sif layniidef
