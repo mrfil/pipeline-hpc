@@ -13,7 +13,6 @@ To get started with the pipeline, please install the following requirements:
     * Brain Connectivity Toolbox for Matlab (https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0) 
     * xcpEngine dsn files (https://github.com/PennBBL/xcpEngine/tree/master/designs) 
     * ASHS (https://sites.google.com/site/hipposubfields/) 
-    * LAYNII (https://github.com/layerfMRI/LAYNII) 
     * bidsphysio (https://github.com/cbinyu/bidsphysio)
 
 You will need to install git, to clone the build recipe files from this repository.
