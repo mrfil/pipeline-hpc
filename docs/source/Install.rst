@@ -37,9 +37,8 @@ This following commands can be used to build these required images for the pipel
 
     # See README.md for more information on 
     # provided def files for ubuntu-jq, python3
-    SINGULARITY_NOHTTPS=1 singularity build ubuntu-jq-0.1.sif defjq
+    SINGULARITY_NOHTTPS=1 singularity build ubuntu-jqjo.sif jqjo.def
     SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
-    SINGULARITY_NOHTTPS=1 singularity build laynii-2.0.0.sif layniidef
     SINGULARITY_NOHTTPS=1 singularity build ashs-1.0.0.sif ashsdef
 
     #Start Docker registry for localhost
