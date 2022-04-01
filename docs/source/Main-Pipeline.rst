@@ -114,3 +114,78 @@ You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface w
 .. code-block:: bash
 
     ./singularity_deface_bids.sh -p <Project ID> -m <"T1w T2w FLAIR ..."> -b <base directory for pipeline> -t <version of pipeline>
+
+
+FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)
+========================================================================
+
+.. note::
+    Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt
+    
+    This workflow is intended to run on machines with CUDA 9.1 or CUDA 10.2 compatible GPUs.
+
+*Outputs*
+
+In addition to the fdt_network_matrix produced by probtrackx2 for the masks 
+derived from Freesurfer parcellation (generated in sMRIPrep/fMRIPrep),
+this sub-pipeline also outputs node-labeled csv files of the NxN streamline-weighted 
+and ROI volume-weighted structural connectome.
+
+*Performance*
+
+From testing 30 datasets from 3T 2.0mm isotropic CMRR DWI):
+
+.. list-table:: Benchmark with 3T DWI data
+   :widths: 20 20 30 50 20 20 
+   :header-rows: 1
+
+   * - Host OS
+     - CUDA Version
+     - GPU
+     - CPU
+     - RAM
+     - Run time
+   * - CentOS
+     - 9.1
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+   * - CentOS
+     - 10.2
+     - Nvidia Tesla V100 16GB
+     - Intel Xeon Gold 6138 2.00GHz (80 threads)
+     - 192GB
+     - 25-30 minutes
+
+
+Peak GPU memory usage: 13999MiB / 16160MiB
+
+Usage: 
+
+*Docker*
+
+.. code-block:: bash
+
+    #run reconstruction workflow in QSIPrep
+    docker run -v ${IMAGEDIR}:/imgdir -v ${stmpdir}:/paulscratch -v ${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 1.6 -w /paulscratch participant --participant-label ${subject}
+
+
+.. code-block:: bash
+    # Running SCFSL GPU tractography
+    docker exec --gpus all -e LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64 \
+    -v /path/to/freesurfer/license.txt:/opt/freesurfer/license.txt \
+    -v /path/project/bids:/data mrfilbi/scfsl_gpu:0.3.2 /bin/bash /scripts/proc_fsl_connectome_fsonly.sh ${subject} ${session}
+
+*Singularity*
+
+.. code-block:: bash
+
+    #run reconstruction workflow in QSIPrep
+    singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${stmpdir}:/paulscratch,${projDir}:/data ${IMAGEDIR}/qsiprep-v0.15.1.sif --fs-license-file /imgdir/license.txt /data/bids /data/bids/derivatives --recon_input /data/bids/derivatives/qsiprep --recon_spec reorient_fslstd --output-resolution 1.6 -w /paulscratch participant --participant-label ${subject}
+
+.. code-block:: bash
+    # Running SCFSL GPU tractography
+    SINGULARITY_ENVLD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64 \
+    singularity exec --nv -B /path/to/freesurfer/license.txt:/opt/freesurfer/license.txt,/path/project/bids:/data \
+    /path/to/scfsl_gpu-v0.3.2.sif /bin/bash /scripts/proc_fsl_connectome_fsonly.sh ${subject} ${session}

@@ -1,0 +1,6 @@
+Bootstrap: docker
+From: ubuntu:18.04
+
+%post
+    # Update Ubuntu Software repository
+    apt update && apt-get update -y && apt-get install -y jq jo nano
