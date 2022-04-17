@@ -33,7 +33,7 @@ def infotodict(seqinfo):
     t2w = create_key('sub-{subject}/{session}/anat/sub-{subject}_{session}_acq-{acq}_run-{item:01d}_T2w')
     
     info = {t1w: [], dwi: [], t2w: [], FLAIR: [], rest: [], rest_sbref: [], fmap_fmri: [], fmap_tfmri: [], nback_sbref: [], fmap_dwi: [], tfunc: [], swi: [], asl: []} 
-   
+    
     for s in seqinfo:
         if ((('T1w' in s.protocol_name) or ((s.dim3 == 192) and (s.dim4 == 1))) or ('t1' in s.protocol_name)) and not(s.is_derived) and (s.dim3 >100):
             info[t1w] = [s.series_id] # assign if a single series meets criteria
@@ -80,5 +80,19 @@ def infotodict(seqinfo):
                 info[asl].append({'item': s.series_id, 'acq': 'ti1X800ti2200'})
             elif ('ti1X800ti2600' in s.protocol_name):
                 info[asl].append({'item': s.series_id, 'acq': 'ti1X800ti2600'})
+    # remove all but last value for each key in info dict object
+    for k in info.keys():
+        info[k].reverse()
+        limit = 0
+        if 'fmap' in k:
+            limit = len(info[k]) - 2
+        else:
+            limit = len(info[k]) - 1
+        i = 0
+        while i < limit:
+            info[k].pop()
+            i = i + 1
+        info[k].reverse()
+        
     return info
 
