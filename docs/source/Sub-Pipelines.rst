@@ -251,4 +251,16 @@ From testing 30 datasets from 3T 2.0mm isotropic CMRR DWI):
 
 Peak GPU memory usage: 13999MiB / 16160MiB
 
+(Optional) HTML Quality Control Report Generator
+------------------------------------------------
 
+After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the  HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho https://github.com/mrfil/html-qc-reports
+
+Use the pylearn.sif Singularity image to run QC_Reporter.py 
+
+.. code-block:: bash
+    
+    cd ./singularity_images
+    git clone https://github.com/mrfil/html-qc-reports.git
+    cd html-qc-reports
+    singularity exec -B /path/to/output/collect:/datain,./:/scripts pylearn.sif python3 /scripts/QC_Reporter.py
