@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: python:3.8.0
+
+%runscript
+    
+    exec /usr/local/bin/python "$@"
+
+%post
+
+    apt-get update
+    apt-get install -y vim git nano
+    pip3 install --upgrade pip
+    pip3 install matplotlib pandas seaborn tk scipy
