@@ -189,3 +189,19 @@ Usage:
     SINGULARITY_ENVLD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-10.2/lib64 \
     singularity exec --nv -B /path/to/freesurfer/license.txt:/opt/freesurfer/license.txt,/path/project/bids:/data \
     /path/to/scfsl_gpu-v0.3.2.sif /bin/bash /scripts/proc_fsl_connectome_fsonly.sh ${subject} ${session}
+
+
+
+(Optional) HTML Quality Control Report Generator
+================================================
+
+After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the  HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho https://github.com/mrfil/html-qc-reports
+
+Use the pylearn.sif Singularity image to run QC_Reporter.py 
+
+.. code-block:: bash
+    
+    cd ./singularity_images
+    git clone https://github.com/mrfil/html-qc-reports.git
+    cd html-qc-reports
+    singularity exec -B /path/to/output/collect:/datain,./:/scripts pylearn.sif python3 /scripts/QC_Reporter.py
