@@ -74,6 +74,20 @@ you can combine the many metrics from the above BIDS-Apps to a one-line csv for 
 
 The collect.sh script takes these csvs for each participant and creates a group-level csv (output/PROJECTID/collect/).
 
+(Optional) HTML Quality Control Report Generator
+------------------------------------------------
+
+After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho https://github.com/mrfil/html-qc-reports
+
+Use the pylearn.sif Singularity image to run QC_Reporter.py 
+
+.. code-block:: bash
+    
+    cd ./singularity_images
+    git clone https://github.com/mrfil/html-qc-reports.git
+    cd html-qc-reports
+    singularity exec -B /path/to/output/collect:/datain,./:/scripts pylearn.sif python3 /scripts/QC_Reporter.py
+
 
 Preparing your dataset for sharing
 ----------------------------------
@@ -85,4 +99,5 @@ You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface w
 .. code-block:: bash
 
     ./singularity_deface_bids.sh -p <Project ID> -m <"T1w T2w FLAIR ..."> -b <base directory for pipeline> -t <version of pipeline>
+
 
