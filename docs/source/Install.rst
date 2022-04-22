@@ -39,6 +39,7 @@ This following commands can be used to build these required images for the pipel
     SINGULARITY_NOHTTPS=1 singularity build ubuntu-jqjo.sif jqjo.def
     SINGULARITY_NOHTTPS=1 singularity build python3.sif defpy3
     SINGULARITY_NOHTTPS=1 singularity build ashs-1.0.0.sif ashsdef
+    SINGULARITY_NOHTTPS=1 singularity build pylearn.sif pylearn.def
 
     #Start Docker registry for localhost
     docker run -d -p 5000:5000 --restart=always --name registry registry:2
