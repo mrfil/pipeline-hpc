@@ -7,6 +7,7 @@ Citing
 This pipeline is an extension of the original BIC 3T MRI processing pipeline written by Evan Dean Anderson. 
 Processing streams for diffusion data, hippocampal subfield segmentation, quantitative susceptibility mapping, updates to BIDS-App versions, automated fmap JSON editing, data science preparation, and other functions were added by Paul B. Camacho.
 Code for preparation for sharing of BIDS data using pydeface was adapted from work by Megan Finnegan.
+Quality control and network-based metric HTML report generation and exploratory regression report generation (https://github.com/mrfil/html-qc-reports) written by Nishant Bhamidipati and Paul B Camacho.
  
 The original BIC 3T MRI Pipeline acknowledges intellectual contributions from members of the Beckman Processing Pipeline Working Group (see below).
 
