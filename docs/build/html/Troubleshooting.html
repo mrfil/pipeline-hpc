@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting &mdash; BIC 3T MRI Pipeline HPC 0.3.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Manual-Correction" href="Manual-Correction.html" />
+    <link rel="prev" title="FAQs" href="FAQs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BIC 3T MRI Pipeline HPC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="About.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main-Pipeline.html">Main Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#id2">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#container-building">Container building</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#singularity-cache-and-tmp">Singularity cache and tmp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#squashfs-tools">SquashFS-tools</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#container-running">Container running</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#templateflow">TemplateFlow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BIC 3T MRI Pipeline HPC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Troubleshooting</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Troubleshooting.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="troubleshooting">
+<span id="id1"></span><h1>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this heading"></a></h1>
+</section>
+<section id="id2">
+<h1>Troubleshooting<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h1>
+<section id="container-building">
+<h2>Container building<a class="headerlink" href="#container-building" title="Permalink to this heading"></a></h2>
+<section id="singularity-cache-and-tmp">
+<h3>Singularity cache and tmp<a class="headerlink" href="#singularity-cache-and-tmp" title="Permalink to this heading"></a></h3>
+<p>Cache directory Error: “FATAL:   While performing build: conveyor failed to get: Error writing blob: write /tmp/bundle-temp-&lt;bundlenumber&gt;/oci-put-blob&lt;blobnumber&gt;&gt;: no space left on device”</p>
+<p>Solution: Declare the variables SINGULARITY_CACHEDIR and SINGULARITY_TMPDIR before your singularity build command as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir /path/to/singularity_images/SINGCACHE <span class="o">&amp;&amp;</span> mkdir /path/to/singularity_images/TMPSING
+<span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span>/path/to/singularity_images/SINGCACHE <span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/path/to/singularity_images/SINGTMP singularity build yourimage.sif docker://organization/image:tag
+</pre></div>
+</div>
+</section>
+<section id="squashfs-tools">
+<h3>SquashFS-tools<a class="headerlink" href="#squashfs-tools" title="Permalink to this heading"></a></h3>
+<p>SquashFS-tools Error: FATAL:   Unable to create build: while searching for mksquashfs: exec: “mksquashfs”: executable file not found in $PATH</p>
+<p>Solution: Compile squashfs-tools locally from GitHub - <a class="reference external" href="https://github.com/plougher/squashfs-tools">https://github.com/plougher/squashfs-tools</a> and add to PATH temporarily as follows</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> /path/to/singularity_images/
+git clone https://github.com/plougher/squashfs-tools.git
+<span class="nb">cd</span> squashfs-tools/squashfs-tools
+make
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:/path/to/singularity_images/squashfs-tools/squashfs-tools
+</pre></div>
+</div>
+</section>
+</section>
+<section id="container-running">
+<h2>Container running<a class="headerlink" href="#container-running" title="Permalink to this heading"></a></h2>
+<section id="templateflow">
+<h3>TemplateFlow<a class="headerlink" href="#templateflow" title="Permalink to this heading"></a></h3>
+<p>BIDS-Apps failing due to failed attempt to retrieve TemplateFlow images from the web:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>.....
+urllib3.exceptions.MaxRetryError: HTTPSConnectionPool<span class="o">(</span><span class="nv">host</span><span class="o">=</span><span class="s1">&#39;templateflow.s3.amazonaws.com&#39;</span>, <span class="nv">port</span><span class="o">=</span><span class="m">443</span><span class="o">)</span>: Max retries exceeded with url: /tpl-OASIS30ANTs/tpl-OASIS30ANTs_res-01_T1w.nii.gz <span class="o">(</span>Caused by NewConnectionError<span class="o">(</span><span class="s1">&#39;&lt;urllib3.connection.HTTPSConnection object at 0x2aaab5a2c700&gt;: Failed to establish a new connection: [Errno 110] Connection timed out&#39;</span><span class="o">))</span>
+
+During handling of the above exception, another exception occurred:
+
+Traceback <span class="o">(</span>most recent call last<span class="o">)</span>:
+File <span class="s2">&quot;/opt/conda/lib/python3.8/multiprocessing/process.py&quot;</span>, line <span class="m">315</span>, <span class="k">in</span> _bootstrap
+  self.run<span class="o">()</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/multiprocessing/process.py&quot;</span>, line <span class="m">108</span>, <span class="k">in</span> run
+  self._target<span class="o">(</span>*self._args, **self._kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/smriprep/cli/run.py&quot;</span>, line <span class="m">581</span>, <span class="k">in</span> build_workflow
+  retval<span class="o">[</span><span class="s2">&quot;workflow&quot;</span><span class="o">]</span> <span class="o">=</span> init_smriprep_wf<span class="o">(</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/smriprep/workflows/base.py&quot;</span>, line <span class="m">166</span>, <span class="k">in</span> init_smriprep_wf
+  <span class="nv">single_subject_wf</span> <span class="o">=</span> init_single_subject_wf<span class="o">(</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/smriprep/workflows/base.py&quot;</span>, line <span class="m">400</span>, <span class="k">in</span> init_single_subject_wf
+  <span class="nv">anat_preproc_wf</span> <span class="o">=</span> init_anat_preproc_wf<span class="o">(</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/smriprep/workflows/anatomical.py&quot;</span>, line <span class="m">376</span>, <span class="k">in</span> init_anat_preproc_wf
+  <span class="nv">brain_extraction_wf</span> <span class="o">=</span> init_brain_extraction_wf<span class="o">(</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/niworkflows/anat/ants.py&quot;</span>, line <span class="m">198</span>, <span class="k">in</span> init_brain_extraction_wf
+  tpl_target_path, <span class="nv">common_spec</span> <span class="o">=</span> get_template_specs<span class="o">(</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/niworkflows/utils/misc.py&quot;</span>, line <span class="m">78</span>, <span class="k">in</span> get_template_specs
+  <span class="nv">tpl_target_path</span> <span class="o">=</span> get_template<span class="o">(</span>in_template, **template_spec<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/templateflow/conf/__init__.py&quot;</span>, line <span class="m">31</span>, <span class="k">in</span> wrapper
+  <span class="k">return</span> func<span class="o">(</span>*args, **kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/templateflow/api.py&quot;</span>, line <span class="m">79</span>, <span class="k">in</span> get
+  _s3_get<span class="o">(</span>filepath<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/templateflow/api.py&quot;</span>, line <span class="m">222</span>, <span class="k">in</span> _s3_get
+  <span class="nv">r</span> <span class="o">=</span> requests.get<span class="o">(</span>url, <span class="nv">stream</span><span class="o">=</span>True<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/requests/api.py&quot;</span>, line <span class="m">75</span>, <span class="k">in</span> get
+  <span class="k">return</span> request<span class="o">(</span><span class="s1">&#39;get&#39;</span>, url, <span class="nv">params</span><span class="o">=</span>params, **kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/requests/api.py&quot;</span>, line <span class="m">61</span>, <span class="k">in</span> request
+  <span class="k">return</span> session.request<span class="o">(</span><span class="nv">method</span><span class="o">=</span>method, <span class="nv">url</span><span class="o">=</span>url, **kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/requests/sessions.py&quot;</span>, line <span class="m">542</span>, <span class="k">in</span> request
+  <span class="nv">resp</span> <span class="o">=</span> self.send<span class="o">(</span>prep, **send_kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/requests/sessions.py&quot;</span>, line <span class="m">655</span>, <span class="k">in</span> send
+  <span class="nv">r</span> <span class="o">=</span> adapter.send<span class="o">(</span>request, **kwargs<span class="o">)</span>
+File <span class="s2">&quot;/opt/conda/lib/python3.8/site-packages/requests/adapters.py&quot;</span>, line <span class="m">516</span>, <span class="k">in</span> send
+  raise ConnectionError<span class="o">(</span>e, <span class="nv">request</span><span class="o">=</span>request<span class="o">)</span>
+requests.exceptions.ConnectionError: HTTPSConnectionPool<span class="o">(</span><span class="nv">host</span><span class="o">=</span><span class="s1">&#39;templateflow.s3.amazonaws.com&#39;</span>, <span class="nv">port</span><span class="o">=</span><span class="m">443</span><span class="o">)</span>: Max retries exceeded with url: /tpl-OASIS30ANTs/tpl-OASIS30ANTs_res-01_T1w.nii.gz <span class="o">(</span>Caused by NewConnectionError<span class="o">(</span><span class="s1">&#39;&lt;urllib3.connection.HTTPSConnection object at 0x2aaab5a2c700&gt;: Failed to establish a new connection: [Errno 110] Connection timed out&#39;</span><span class="o">))</span>
+</pre></div>
+</div>
+<p>Fix use your own pre-downloaded templateflow directory:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls /path/to/singularity_images/templateflow
+  tpl-Fischer344  tpl-MNI152NLin2009cAsym  tpl-MNIInfant         tpl-PNC
+  tpl-fsaverage   tpl-MNI152NLin2009cSym   tpl-MNIPediatricAsym  tpl-RESILIENT
+  tpl-fsLR        tpl-MNI152NLin6Asym      tpl-NKI               tpl-UNCInfant
+  tpl-MNI152Lin   tpl-MNI152NLin6Sym       tpl-OASIS30ANTs       tpl-WHS
+
+<span class="nb">export</span> <span class="nv">TEMPLATEFLOW_HOST_HOME</span><span class="o">=</span>/path/to/singularity_images/templateflow
+<span class="nv">SINGULARITY_ENVTEMPLATEFLOW_HOME</span><span class="o">=</span>/opt/templateflow
+<span class="nv">SINGULARITY_ENVTEMPLATEFLOW_HOME</span><span class="o">=</span>/opt/templateflow singularity run --nv -B <span class="si">${</span><span class="nv">TEMPLATEFLOW_HOST_HOME</span><span class="si">}</span>:<span class="si">${</span><span class="nv">SINGULARITY_ENVTEMPLATEFLOW_HOME</span><span class="si">}</span>,./bids:/data,./bids/derivatives/smriprep:/out,/path/to/singularity_images/license.txt:/opt/freesurfer/license.txt /path/to/singularity_images/smriprep-fastsurfer_dev.sif /data/ /out/ --fs-license-file /opt/freesurfer/license.txt participant --participant-label sub-&lt;participantIDhere&gt;
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="FAQs.html" class="btn btn-neutral float-left" title="FAQs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="Manual-Correction.html" class="btn btn-neutral float-right" title="Manual-Correction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

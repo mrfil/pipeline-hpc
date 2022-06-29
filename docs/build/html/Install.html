@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install &mdash; BIC 3T MRI Pipeline HPC 0.3.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="FAQs" href="FAQs.html" />
+    <link rel="prev" title="Heuristics" href="Heuristics.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> BIC 3T MRI Pipeline HPC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="About.html">About</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Main-Pipeline.html">Main Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Install</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">BIC 3T MRI Pipeline HPC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Install</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/Install.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="install">
+<span id="id1"></span><h1>Install<a class="headerlink" href="#install" title="Permalink to this heading"></a></h1>
+<p>To get started with the pipeline, please install the following requirements:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep)</p></li>
+<li><p>Singularity image of Matlab R2019a (how to: <a class="reference external" href="https://github.com/mathworks-ref-arch/matlab-dockerfile">https://github.com/mathworks-ref-arch/matlab-dockerfile</a>)</p></li>
+<li><p>Singularity image of Ubuntu with JQ installed Singularity image of Python3 (Based on Docker python/3.9.0)</p></li>
+<li><p>Singularity image of Docker HTML to PDF (<a class="reference external" href="https://github.com/pinkeen/docker-html-to-pdf">https://github.com/pinkeen/docker-html-to-pdf</a>)</p></li>
+<li><p>Brain Connectivity Toolbox for Matlab (<a class="reference external" href="https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0">https://sites.google.com/site/bctnet/Home/functions/BCT.zip?attredirects=0</a>)</p></li>
+<li><p>xcpEngine dsn files (<a class="reference external" href="https://github.com/PennBBL/xcpEngine/tree/master/designs">https://github.com/PennBBL/xcpEngine/tree/master/designs</a>)</p></li>
+<li><p>ASHS (<a class="reference external" href="https://sites.google.com/site/hipposubfields/">https://sites.google.com/site/hipposubfields/</a>)</p></li>
+<li><p>bidsphysio (<a class="reference external" href="https://github.com/cbinyu/bidsphysio">https://github.com/cbinyu/bidsphysio</a>)</p></li>
+</ul>
+</div></blockquote>
+<p>You will need to install git, to clone the build recipe files from this repository.
+Please cite the images used and retrieve all relevant licenses (you will need your own Freesurfer license for some containers).</p>
+<p>This following commands can be used to build these required images for the pipeline.
+<em>Run on a machine which has sufficient permissions for Singularity and Docker building!</em></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generates Singularity images used in pipeline</span>
+mkdir ./singularity_images
+chmod <span class="m">777</span> -R ./singularity_images
+<span class="nb">cd</span> ./singularity_images
+
+singularity build mriqc-0.16.1.sif docker://poldracklab/mriqc:0.16.1
+singularity build heudiconv-0.9.sif docker://nipy/heudiconv:0.9.0
+singularity build fmriprep-v21.0.1.sif docker://nipreps/fmriprep:21.0.1
+singularity build xcpengine-1.2.4.sif docker://pennbbl/xcpengine:1.2.4
+singularity build qsiprep-v0.15.1.sif docker://pennbbl/qsiprep:0.15.1
+
+<span class="c1"># See README.md for more information on</span>
+<span class="c1"># provided def files for ubuntu-jq, python3</span>
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ubuntu-jqjo.sif jqjo.def
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build python3.sif defpy3
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ashs-1.0.0.sif ashsdef
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build pylearn.sif pylearn.def
+
+<span class="c1">#Start Docker registry for localhost</span>
+docker run -d -p <span class="m">5000</span>:5000 --restart<span class="o">=</span>always --name registry registry:2
+<span class="c1"># Follow directions to build Docker images for the following:</span>
+<span class="c1"># https://github.com/pinkeen/docker-html-to-pdf</span>
+git clone https://github.com/pinkeen/docker-html-to-pdf.git
+<span class="c1"># You will want to set the port used in html2pdf to an unused port on the HPC</span>
+<span class="nb">cd</span> ./docker-html-to-pdf
+docker build -t html2pdf:79.1 -t localhost:5000/html2pdf:79.1 .
+docker push localhost:5000/html2pdf:79.1
+<span class="nb">cd</span> ../
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build html2pdf.sif docker://localhost:5000/html2pdf:79.1
+
+<span class="c1">#build jq and jo image for new project_doc.sh</span>
+<span class="nb">cd</span> ./ubuntu-jqjo
+docker build -t localhost:5000/ubuntu-jqjo:0.2 .
+docker push localhost:5000/ubuntu-jqjo:0.2
+<span class="nb">cd</span> ../
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build ubuntu-jqjo-v0.2.sif docker://localhost:5000/ubuntu-jqjo:0.2
+
+<span class="c1"># Follow directions to build Docker images for the following:</span>
+git clone https://github.com/cbinyu/bidsphysio.git
+<span class="nb">cd</span> ./bidsphysio
+docker build -t bidsphysio:latest -t localhost:5000/bidsphysio:latest .
+docker push localhost:5000/bidsphysio:latest
+<span class="nb">cd</span> ../
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build bidsphysio.sif docker://localhost:5000/bidsphysio:latest
+
+<span class="c1">## Prerequisites</span>
+<span class="c1">#The following examples use the CUDA 10.2 toolkit and runtime (loaded via module or native install)</span>
+git clone https://github.com/mrfil/scfsl.git
+<span class="nb">cd</span> ./scfsl
+docker build -t scfsl_gpu:0.3.2 -t localhost:5000/scfsl_gpu:0.3.2 .
+<span class="nb">cd</span> ../
+docker push localhost:5000/scfsl_gpu:0.3.2
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build scfsl_gpu-v0.3.2.sif docker://localhost:5000/scfsl_gpu:0.3.2
+
+<span class="c1"># https://github.com/mathworks-ref-arch/matlab-dockerfile</span>
+git clone https://github.com/mathworks-ref-arch/matlab-dockerfile.git
+mkdir ./matlab-dockerfile/matlab-install
+<span class="c1"># place install files and modified license in correct directories per guide in repo</span>
+<span class="nb">cd</span> ./matlab-dockerfile
+docker build -f Dockerfile.R2019a -t matlab:r2019a -t localhost:5000/matlab:r2019a --build-arg <span class="nv">MATLAB_RELEASE</span><span class="o">=</span>R2019a .
+<span class="nb">cd</span> ../
+docker push localhost:5000/matlab:r2019b
+<span class="nv">SINGULARITY_NOHTTPS</span><span class="o">=</span><span class="m">1</span> singularity build matlab-R2019a.sif docker://localhost:5000/matlab:r2019a
+</pre></div>
+</div>
+<p>The process for creating the MATLAB container has changed! You can build more recent MATLAB containers using the
+official Docker Hub images from MathWorks. You will still need to provide license information as denoted in the
+repository listed above.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="Heuristics.html" class="btn btn-neutral float-left" title="Heuristics" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="FAQs.html" class="btn btn-neutral float-right" title="FAQs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Paul B Camacho, Evan D Anderson, Nishant Bhamidipati, Aaron T Anderson, Benjamin Zimmerman, Matthew S Moore, Ezra Paul Winter-Nelson, Maximillian K Egan, Brad P Sutton.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
