@@ -11,7 +11,7 @@ and leverage BIDS-Apps to perform quality control, preprocessing, and automated 
 The main Pipeline takes 3T brain MRI DICOMs and outputs BIDS sourcedata, preprocessed derivatives, resting-state functional connectivity and structural connectivity matrices, basic network-based statistics, and hippocampal subfield segmentation via BIDS App Singularity containers. 
 While developed for Slurm control systems, the shell scripts here should be compatible with CentOS-derived Linux clusters.
 
-Our :ref:`Installation Guide <Install>`_ provides details on installing the following requirements:
+Our :ref:`Installation Guide<Install>` provides details on installing the following requirements:
 
 .. hlist::
     * Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep) 
