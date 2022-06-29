@@ -28,10 +28,10 @@ Indices and tables
 * :ref:`Index<Index>`
 * :ref:`About<About>`
 * :ref:`Usage<Usage>`
-* :ref:`Install<Installation>`
-* :ref:`FAQs<Frequently Asked Questions>`
+* :ref:`Install<Install>`
+* :ref:`FAQs<FAQs>`
 * :ref:`Troubleshooting<Troubleshooting>`
-* :ref:`Manual-Correction<Manual Correction>`
-* :ref:`Citing<Citing the HPC Pipeline>`
-* :ref:`Requests<Requesting new pipeline configurations>`
+* :ref:`Manual-Correction<Manual-Correction>`
+* :ref:`Citing<Citing>`
+* :ref:`Requests<Requests>`
 * :ref:`search`
