@@ -1,4 +1,4 @@
-.. 7T MRI Pipeline HPC documentation master file, created by
+.. 3T MRI Pipeline HPC documentation master file, created by
    sphinx-quickstart on Mon Feb 28 20:38:18 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -25,7 +25,7 @@ Welcome to BIC 3T MRI Pipeline HPC's documentation!
 Indices and tables
 ==================
 
-* :ref:`Index<Index>`
+* :ref:`Index<index>`
 * :ref:`About<About>`
 * :ref:`Usage<Usage>`
 * :ref:`Install<Install>`
