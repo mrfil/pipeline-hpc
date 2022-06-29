@@ -25,7 +25,6 @@ Welcome to BIC 3T MRI Pipeline HPC's documentation!
 Indices and tables
 ==================
 
-* :ref:`Index<index>`
 * :ref:`About<About>`
 * :ref:`Usage<Usage>`
 * :ref:`Install<Install>`
