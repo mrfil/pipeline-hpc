@@ -13,7 +13,7 @@ If you are planning a new study, you should consider using the sequence naming c
 These are based on the BIDS specification and can simplify comparison with other scans/studies.
 
 In any case, you will likely need to adjust your heuristic.py file iteratively at the start of working with a new dataset.
-This pipeline repo contains the example heuristic.py - `main_heuristic.py <https://github.com/mrfil/7T-pipeline-hpc/blob/main/main_heuristic.py>`_ - that should be modified to fit your study scan protocol.
+This pipeline repo contains the example heuristic.py - `main_heuristic.py <https://github.com/mrfil/pipeline-hpc/blob/main/main_heuristic_nomultirun.py>`_ - that should be modified to fit your study scan protocol.
 
 .. code-block:: python
 
@@ -96,7 +96,7 @@ This pipeline repo contains the example heuristic.py - `main_heuristic.py <https
 Running HeuDiConv with your adjusted heuristic.py will depend on your use case and installation method.
 
 .. :hlist::
-    * HeuDiConv runs as part of the `main pipeline shell script <https://github.com/mrfil/7T-pipeline-hpc/blob/main/main_heuristic.py>`_. However, this can be less efficient for testing a heuristic.py.
+    * HeuDiConv runs as part of the `main pipeline shell script <https://github.com/mrfil/pipeline-hpc/blob/main/main_heuristic_nomultirun.py>`_. However, this can be less efficient for testing a heuristic.py.
     * Using the Singularity image that runs in the pipeline:
     .. code-block:: bash
         singularity exec --cleanenv --bind ${projDir}:/datain ${IMAGEDIR}/heudiconv-0.9.0.sif heudiconv -d /datain/{subject}/{session}/scans/*/DICOM/*dcm -f /datain/${project}_heuristic_HCP.py -o /datain/bids --minmeta -s ${sub} -ss ${ses} -c dcm2niix -b --overwrite
