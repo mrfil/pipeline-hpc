@@ -14,6 +14,6 @@ Stage: build
     apt-get install -y curl git parallel imagemagick
     chmod 777 -R /opt/ashs
     export ASHS_ROOT=/opt/ashs/ashs-1.0.0
-    export ATLAS_ASHS=/opt/ashs/ashs_atlas_umcutrecht_7t_20170810
+    export ATLAS_ASHS=/opt/ashs/ashs_atlas_upennpmc_20170810
     
 
