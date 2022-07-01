@@ -1,57 +1,71 @@
 .. _Citing :
 
-------
+******
 Citing
-------
+******
 
+To cite the BIC 3T pipeline, please include the following reference in your manuscripts:
+
+**Citation TK**
+
+
+Boilerplates
+============
+See our boilerplate generation page for creating documentation of your particular workflow.
+
+Prior Work and Intellectual Contributions
+=========================================
 This pipeline is an extension of the original BIC 3T MRI processing pipeline written by Evan Dean Anderson. 
 Processing streams for diffusion data, hippocampal subfield segmentation, quantitative susceptibility mapping, updates to BIDS-App versions, automated fmap JSON editing, data science preparation, and other functions were added by Paul B. Camacho.
+
 Code for preparation for sharing of BIDS data using pydeface was adapted from work by Megan Finnegan.
 Quality control and network-based metric HTML report generation and exploratory regression report generation (https://github.com/mrfil/html-qc-reports) written by Nishant Bhamidipati and Paul B Camacho.
  
-The original BIC 3T MRI Pipeline acknowledges intellectual contributions from members of the Beckman Processing Pipeline Working Group (see below).
 
 The Original Beckman Processing Pipeline Working Group:
 -------------------------------------------------------
+The original BIC 3T MRI Pipeline acknowledges intellectual contributions from members of the Beckman Processing Pipeline Working Group (see below).
 
-* Aaron T Anderson
-* Evan Dean Anderson
-* Paul Camacho
-* Maximillian Kirichenko Egan
-* Patricia Marie Jones
-* Sepideh Sadaghiani
-* Matthew Stephen Moore
-* Brad Sutton
-* Marc D Taylor
-* Neil L Thackeray
-* Ben Zimmerman
-* Babu Adhimoolam
-* Aron Keith Barbey
-* Diane M Beck
-* Daniel Christopher Bowie
-* Alexander Michael Cerjanic
-* Bliss Chapman
-* Grace M Clements
-* Monica Fabiani
-* Grace Goodwin
-* Gabriele Gratton
-* Fatima T Husain
-* Kwanjin Jung
-* Dean Karres
-* Rafay Ali Khan
-* Sanmi Koyejo
-* Ryan Larsen
-* Citlali Lopez-Ortiz
-* Kathy Low
-* Brando Miranda
-* Parham Mostame
-* Hillary Schwarb
-* Somayeh Shahsavarani
-* Mohammed Tanveer Talukdar
-* Ezra Paul Winter-Nelson
-* Christopher Eric Zwilling
+.. hlist::
+   :columns: 2
+   
+   * Aaron T Anderson
+   * Evan Dean Anderson
+   * Paul Camacho
+   * Maximillian Kirichenko Egan
+   * Patricia Marie Jones
+   * Sepideh Sadaghiani
+   * Matthew Stephen Moore
+   * Brad Sutton
+   * Marc D Taylor
+   * Neil L Thackeray
+   * Ben Zimmerman
+   * Babu Adhimoolam
+   * Aron Keith Barbey
+   * Diane M Beck
+   * Daniel Christopher Bowie
+   * Alexander Michael Cerjanic
+   * Bliss Chapman
+   * Grace M Clements
+   * Monica Fabiani
+   * Grace Goodwin
+   * Gabriele Gratton
+   * Fatima T Husain
+   * Kwanjin Jung
+   * Dean Karres
+   * Rafay Ali Khan
+   * Sanmi Koyejo
+   * Ryan Larsen
+   * Citlali Lopez-Ortiz
+   * Kathy Low
+   * Brando Miranda
+   * Parham Mostame
+   * Hillary Schwarb
+   * Somayeh Shahsavarani
+   * Mohammed Tanveer Talukdar
+   * Ezra Paul Winter-Nelson
+   * Christopher Eric Zwilling
 
-Many BIDS-Apps have their own boilerplate text and citations:
 
 
 Many BIDS-Apps have their own boilerplate text and citations:

@@ -1,11 +1,11 @@
 .. _FAQs :
 
-----
+****
 FAQs
-----
+****
 
 How to build with Docker
-------------------------
+========================
 
 From a Dockerfile:
 
@@ -50,7 +50,7 @@ From a Docker repository:
     docker pull organization/image:tag
 
 How to build with Singularity
------------------------------
+=============================
 
 From a `def recipe file <https://singularity-userdoc.readthedocs.io/en/latest/container_recipes.html>`_ (requires sudo on most systems, some can bypass with --fakeroot):
 

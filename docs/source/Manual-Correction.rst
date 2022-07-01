@@ -1,8 +1,8 @@
 .. _Manual-Correction :
 
------------------
+*****************
 Manual-Correction
------------------
+*****************
 
 If you want to re-run the pipeline with manually corrected FreeSurfer output,
 please make a copy of the original data and then replace the FreeSurfer directory

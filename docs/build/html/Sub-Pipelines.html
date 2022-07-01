@@ -55,9 +55,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#qsiprep-dwi-preprocessing-and-reconstruction">QSIPrep - DWI preprocessing and reconstruction</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing">FSL DTI probabilistic tractography from QSIPrep Preprocessing</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#qsiprep-preprocessing-reorient-to-fsl-space">QSIPrep preprocessing reorient to FSL space:</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#cuda-10-2-accelerated-fdt-pipeline">CUDA 10.2-accelerated FDT pipeline</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#cuda-10-2-accelerated-fdt-pipeline">CUDA 10.2-accelerated FDT pipeline</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional-html-quality-control-report-generator">(Optional) HTML Quality Control Report Generator</a></li>
 </ul>
 </li>
 </ul>
@@ -66,7 +67,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
@@ -250,8 +250,9 @@ singularity run --cleanenv --bind <span class="si">${</span><span class="nv">IMA
 </pre></div>
 </div>
 </section>
+</section>
 <section id="cuda-10-2-accelerated-fdt-pipeline">
-<h4>CUDA 10.2-accelerated FDT pipeline<a class="headerlink" href="#cuda-10-2-accelerated-fdt-pipeline" title="Permalink to this heading"></a></h4>
+<h3>CUDA 10.2-accelerated FDT pipeline<a class="headerlink" href="#cuda-10-2-accelerated-fdt-pipeline" title="Permalink to this heading"></a></h3>
 <p>Usage:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Running SCFSL GPU tractography</span>
 docker <span class="nb">exec</span> --gpus all -e <span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$LD_LIBRARY_PATH</span>:/usr/local/cuda-10.2/lib64 <span class="se">\</span>
@@ -309,8 +310,9 @@ and ROI volume-weighted structural connectome.</p>
 </tbody>
 </table>
 <p>Peak GPU memory usage: 13999MiB / 16160MiB</p>
+</section>
 <section id="optional-html-quality-control-report-generator">
-<h5>(Optional) HTML Quality Control Report Generator<a class="headerlink" href="#optional-html-quality-control-report-generator" title="Permalink to this heading"></a></h5>
+<h3>(Optional) HTML Quality Control Report Generator<a class="headerlink" href="#optional-html-quality-control-report-generator" title="Permalink to this heading"></a></h3>
 <p>After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the  HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho <a class="reference external" href="https://github.com/mrfil/html-qc-reports">https://github.com/mrfil/html-qc-reports</a></p>
 <p>Use the pylearn.sif Singularity image to run QC_Reporter.py</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ./singularity_images
@@ -319,8 +321,6 @@ git clone https://github.com/mrfil/html-qc-reports.git
 singularity <span class="nb">exec</span> -B /path/to/output/collect:/datain,./:/scripts pylearn.sif python3 /scripts/QC_Reporter.py
 </pre></div>
 </div>
-</section>
-</section>
 </section>
 </section>
 </section>

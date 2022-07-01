@@ -1,8 +1,8 @@
 .. _Heuristics :
 
-----------
+**********
 Heuristics
-----------
+**********
 
 Converting data from DICOMs to BIDS-compatible NIFTIs & JSONs can be facilitated using a number of toolboxes (`BIDScoin <https://bidscoin.readthedocs.io/en/stable/>`_, `BIDSconvertR <https://github.com/wulms/bidsconvertr>`_, `HeuDiConv <https://github.com/nipy/heudiconv>`_, etc.).
 Our pipelines currently use HeuDiConv, which uses a set of user-defined rules in a heuristic.py file to sort which DICOMs are converted to BIDS format and defines the names for the BIDS files associated with those DICOM series.

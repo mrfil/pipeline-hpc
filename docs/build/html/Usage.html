@@ -55,7 +55,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
@@ -87,14 +86,12 @@
              
   <section id="usage">
 <span id="id1"></span><h1>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h1>
-<p>We designed this pipeline to use a <a class="reference external" href="https://slurm.schedmd.com/">Slurm</a>-managed high-performance computing cluster.
-The main pipeline takes MRI data in DICOM format and utilizes BIDS-Apps to output common preprocessing
+<p>We designed this pipeline to use a <a class="reference external" href="https://slurm.schedmd.com/">Slurm</a>-managed high-performance computing cluster.</p>
+<p>The main pipeline takes MRI data in DICOM format and utilizes BIDS-Apps to output common preprocessing
 derivatives, processed derivatives, connectivity analyses, and other quantified microstructure measures and images.</p>
 <p>Setup for this pipeline is not currently automated due to the nature of building Singularity images varying for different systems and users of those systems.
 We assume here that you have followed the <cite>installation guide&lt;Install&gt;</cite> to make your Singularity images and transferred them to the cluster you are using.</p>
-<p>Once you have your DICOMs in a consistent directory structure (i.e. project/participant/session/series/DICOM/<a href="#id2"><span class="problematic" id="id3">*</span></a>dcm),
-you can start modifying your <a href="#id4"><span class="problematic" id="id5">:ref:`heuristic.py &lt;Heuristics&gt;`_</span></a> file (here named ${project}_heuristic.py). With your final heuristic,
-you are ready to run the first part of the pipeline:</p>
+<p>Once you have your DICOMs in a consistent directory structure (i.e. project/participant/session/series/DICOM/*dcm), you can start modifying your <a class="reference internal" href="Heuristics.html"><span class="doc">heuristic.py</span></a> file (here named ${project}_heuristic.py). With your final heuristic, you are ready to run the first part of the pipeline:</p>
 <p>You should have an array of participant ID numbers (maximum is three digits for sbatch) for your study.
 <em>If you have more than 3 digits in your participant ID numbers, please see `dyno_PROJs.sh&lt;make this link&gt;`</em>
 This array is passed to sbatch with the -a argument. We recommend creating a copy of dyno.sh that is study-specific in case you handle multiple studies and need to control the versions of scripts/apps.

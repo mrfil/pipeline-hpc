@@ -1,8 +1,8 @@
 .. _Main-Pipeline :
 
--------------
+*************
 Main Pipeline
--------------
+*************
 
 To facilitate reproducible analyses, we developed a Singularity container-based processing pipeline for MRI modalities commonly collected at our site (BIC + CI-AIC).
 These are compatible with the Brain Imaging Data Structure (BIDS) specification and are designed for deployment to high-performance computing clusters.
@@ -12,12 +12,11 @@ The pipeline consists of an initial conversion and quality control metric genera
 
 
 Inputs
-******
+======
 The pipeline assumes data to be in a DICOM format, with some uniformity of organization based on the project/subject/session/series structure.
 
 Outputs
-*******
-
+=======
 DICOMs are converted to BIDS-compatible NIFTIs and sidecar JSONs using HeuDiConv. These are used with BIDS-Apps to produce standard preprocessing derivatives,
 along with resting-state functional connectivity analyses and structural connectivity analyses.
 

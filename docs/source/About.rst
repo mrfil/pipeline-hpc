@@ -1,11 +1,11 @@
 .. _About :
 
------
+*****
 About
------
+*****
 
 The BIDS format and BIDS-App pipelines
---------------------------------------
+======================================
 This pipeline and its sub-pipelines are designed to convert DICOM data to the Brain Imaging Data Structure (BIDS)
 and leverage BIDS-Apps to perform quality control, preprocessing, and automated analyses on high-performance computing clusters.
 The main Pipeline takes 3T brain MRI DICOMs and outputs BIDS sourcedata, preprocessed derivatives, resting-state functional connectivity and structural connectivity matrices, basic network-based statistics, and hippocampal subfield segmentation via BIDS App Singularity containers. 

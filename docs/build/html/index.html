@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to BIC 3T MRI Pipeline HPC’s documentation! &mdash; BIC 3T MRI Pipeline HPC 0.3.0 documentation</title>
+  <title>BIC 3T MRI Pipeline HPC’s documentation &mdash; BIC 3T MRI Pipeline HPC 0.3.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -47,7 +47,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
@@ -67,7 +66,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home"></a> &raquo;</li>
-      <li>Welcome to BIC 3T MRI Pipeline HPC’s documentation!</li>
+      <li>BIC 3T MRI Pipeline HPC’s documentation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,8 +76,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="welcome-to-bic-3t-mri-pipeline-hpc-s-documentation">
-<h1>Welcome to BIC 3T MRI Pipeline HPC’s documentation!<a class="headerlink" href="#welcome-to-bic-3t-mri-pipeline-hpc-s-documentation" title="Permalink to this heading"></a></h1>
+  <section id="bic-3t-mri-pipeline-hpc-s-documentation">
+<h1>BIC 3T MRI Pipeline HPC’s documentation<a class="headerlink" href="#bic-3t-mri-pipeline-hpc-s-documentation" title="Permalink to this heading"></a></h1>
+<p>Welcome to the <a class="reference external" href="https://beckman.illinois.edu/">Beckman Institute</a> 3T MRI Pipeline documentation. This pipeline preprocesses brain imaging data, produces quality control metrics for your data, and conducts automated analysis for a variety of imaging modalities. It has been designed to run on high performance computing frameworks and packaged for easy installation.</p>
+<img alt="https://img.shields.io/readthedocs/pipeline-hpc/latest?style=plastic:alt:ReadtheDocs(version)" src="https://img.shields.io/readthedocs/pipeline-hpc/latest?style=plastic:alt:ReadtheDocs(version)" />
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -96,26 +97,17 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Main-Pipeline.html">Main Pipeline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#inputs">Inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#outputs">Outputs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#preprocessing-derivatives">Preprocessing derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#analyses-derivatives">Analyses derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#metrics">Metrics:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Main-Pipeline.html#optional-html-quality-control-report-generator">(Optional) HTML Quality Control Report Generator</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#preprocessing-derivatives">Preprocessing derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#analyses-derivatives">Analyses derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#metrics">Metrics:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Main-Pipeline.html#optional-html-quality-control-report-generator">(Optional) HTML Quality Control Report Generator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Sub-Pipelines.html#bids-app-containers">BIDS-App containers</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#mriqc-anatomical-functional-quality-control">MRIQC - Anatomical &amp; Functional Quality Control</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#fmriprep-anatomical-functional-preprocessing">fMRIPrep - Anatomical &amp; Functional Preprocessing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#xcpengine-correlation-based-resting-state-functional-connectivity-analysis">XCPEngine - Correlation-based resting-state functional connectivity analysis</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#qsiprep-dwi-preprocessing-and-reconstruction">QSIPrep - DWI preprocessing and reconstruction</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Sub-Pipelines.html#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing">FSL DTI probabilistic tractography from QSIPrep Preprocessing</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="Sub-Pipelines.html#bids-app-containers">BIDS-App containers</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Heuristics.html">Heuristics</a></li>
@@ -125,30 +117,22 @@
 <li class="toctree-l2"><a class="reference internal" href="FAQs.html#how-to-build-with-singularity">How to build with Singularity</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-building">Container building</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#singularity-cache-and-tmp">Singularity cache and tmp</a></li>
-<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#squashfs-tools">SquashFS-tools</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-running">Container running</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="Troubleshooting.html#templateflow">TemplateFlow</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-building">Container building</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Troubleshooting.html#container-running">Container running</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="Citing.html#the-original-beckman-processing-pipeline-working-group">The Original Beckman Processing Pipeline Working Group:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Citing.html#boilerplates">Boilerplates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Citing.html#prior-work-and-intellectual-contributions">Prior Work and Intellectual Contributions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
 </ul>
 </div>
-</section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference internal" href="About.html#about"><span class="std std-ref">About</span></a></p></li>
 <li><p><a class="reference internal" href="Usage.html#usage"><span class="std std-ref">Usage</span></a></p></li>
@@ -160,6 +144,7 @@
 <li><p><a class="reference internal" href="Requests.html#requests"><span class="std std-ref">Requests</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+</section>
 </section>
 
 

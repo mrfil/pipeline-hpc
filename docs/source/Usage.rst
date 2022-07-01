@@ -1,19 +1,18 @@
 .. _Usage :
 
------
+*****
 Usage
------
+*****
 
 We designed this pipeline to use a `Slurm <https://slurm.schedmd.com/>`_-managed high-performance computing cluster.
+
 The main pipeline takes MRI data in DICOM format and utilizes BIDS-Apps to output common preprocessing 
 derivatives, processed derivatives, connectivity analyses, and other quantified microstructure measures and images. 
 
 Setup for this pipeline is not currently automated due to the nature of building Singularity images varying for different systems and users of those systems.
 We assume here that you have followed the `installation guide<Install>` to make your Singularity images and transferred them to the cluster you are using.
 
-Once you have your DICOMs in a consistent directory structure (i.e. project/participant/session/series/DICOM/*dcm),
-you can start modifying your :ref:`heuristic.py <Heuristics>`_ file (here named ${project}_heuristic.py). With your final heuristic,
-you are ready to run the first part of the pipeline:
+Once you have your DICOMs in a consistent directory structure (i.e. project/participant/session/series/DICOM/\*dcm), you can start modifying your :doc:`heuristic.py <Heuristics>` file (here named ${project}_heuristic.py). With your final heuristic, you are ready to run the first part of the pipeline:
 
 You should have an array of participant ID numbers (maximum is three digits for sbatch) for your study.
 *If you have more than 3 digits in your participant ID numbers, please see `dyno_PROJs.sh<make this link>`*
@@ -24,7 +23,7 @@ These commands are written to run from your scripts directory:
 
 
 Running on one node
--------------------
+===================
 To run the main pipeline and log processing times, run with Slurm *sbatch* as follows:
 
 
@@ -33,7 +32,7 @@ To run the main pipeline and log processing times, run with Slurm *sbatch* as fo
     sbatch -a 001,002,003 ./dyno_PROJ_A.sh slurm_proc_latest.sh <PROJECTID> <base directory> <version>
 
 Running FreeSurfer-informed FSL DTI tractography on GPU
--------------------------------------------------------
+=======================================================
 
 .. note::
     Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt.
@@ -61,7 +60,7 @@ Running FreeSurfer-informed FSL DTI tractography on GPU
 
 
 Metrics Collation
------------------
+=================
 
 As your dataset reaches a desired size for data quality monitoring or statistical analyses,
 you can combine the many metrics from the above BIDS-Apps to a one-line csv for each session for each participant:
@@ -75,7 +74,7 @@ you can combine the many metrics from the above BIDS-Apps to a one-line csv for 
 The collect.sh script takes these csvs for each participant and creates a group-level csv (output/PROJECTID/collect/).
 
 (Optional) HTML Quality Control Report Generator
-------------------------------------------------
+================================================
 
 After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho https://github.com/mrfil/html-qc-reports
 
@@ -90,7 +89,7 @@ Use the pylearn.sif Singularity image to run QC_Reporter.py
 
 
 Preparing your dataset for sharing
-----------------------------------
+==================================
 
 An optional script is included in this repository for running pydeface on your BIDS dataset.
 This facilitates sharing data on databanks by removing identifying facial features from each image.

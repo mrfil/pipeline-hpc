@@ -44,19 +44,17 @@
 <li class="toctree-l1"><a class="reference internal" href="Usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Main Pipeline</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#inputs">Inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#preprocessing-derivatives">Preprocessing derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#analyses-derivatives">Analyses derivatives</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#metrics">Metrics:</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#network-based-statistics">Network-based statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#quality-control-metrics">Quality Control Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#outputs">Outputs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#preprocessing-derivatives">Preprocessing derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analyses-derivatives">Analyses derivatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#metrics">Metrics:</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#network-based-statistics">Network-based statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quality-control-metrics">Quality Control Metrics</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#optional-html-quality-control-report-generator">(Optional) HTML Quality Control Report Generator</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#preparing-your-dataset-for-sharing">Preparing your dataset for sharing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-html-quality-control-report-generator">(Optional) HTML Quality Control Report Generator</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="Sub-Pipelines.html">Sub-Pipelines</a></li>
@@ -64,7 +62,6 @@
 <li class="toctree-l1"><a class="reference internal" href="Install.html">Install</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQs.html">FAQs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html">Troubleshooting</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Troubleshooting.html#id2">Troubleshooting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Manual-Correction.html">Manual-Correction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Citing.html">Citing</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Requests.html">Requests</a></li>
@@ -109,19 +106,20 @@ The pipeline consists of an initial conversion and quality control metric genera
 <h2>Outputs<a class="headerlink" href="#outputs" title="Permalink to this heading"></a></h2>
 <p>DICOMs are converted to BIDS-compatible NIFTIs and sidecar JSONs using HeuDiConv. These are used with BIDS-Apps to produce standard preprocessing derivatives,
 along with resting-state functional connectivity analyses and structural connectivity analyses.</p>
+</section>
 <section id="preprocessing-derivatives">
-<h3>Preprocessing derivatives<a class="headerlink" href="#preprocessing-derivatives" title="Permalink to this heading"></a></h3>
+<h2>Preprocessing derivatives<a class="headerlink" href="#preprocessing-derivatives" title="Permalink to this heading"></a></h2>
 <p>desc here</p>
 </section>
 <section id="analyses-derivatives">
-<h3>Analyses derivatives<a class="headerlink" href="#analyses-derivatives" title="Permalink to this heading"></a></h3>
+<h2>Analyses derivatives<a class="headerlink" href="#analyses-derivatives" title="Permalink to this heading"></a></h2>
 <p>desc here</p>
 </section>
 <section id="metrics">
-<h3>Metrics:<a class="headerlink" href="#metrics" title="Permalink to this heading"></a></h3>
+<h2>Metrics:<a class="headerlink" href="#metrics" title="Permalink to this heading"></a></h2>
 <p>Wherever possible, we combine quantifiable metrics from each modality to a common .csv with variable names that are more data science-friendly.</p>
 <section id="network-based-statistics">
-<h4>Network-based statistics<a class="headerlink" href="#network-based-statistics" title="Permalink to this heading"></a></h4>
+<h3>Network-based statistics<a class="headerlink" href="#network-based-statistics" title="Permalink to this heading"></a></h3>
 <p>CSD + SIFT2
 Ends with SC = SIFT2 CSD Structural connectivity network-based measures</p>
 <p><a class="reference external" href="https://qsiprep.readthedocs.io/en/latest/reconstruction.html#mrtrix-multishell-msmt">https://qsiprep.readthedocs.io/en/latest/reconstruction.html#mrtrix-multishell-msmt</a> - docs on   CSD reconstruction method + SIFT2 tractogram filtering
@@ -154,7 +152,7 @@ GlobalEfficiencyaal116fc36p
 GlobalEfficiencyaal116scrub</p>
 </section>
 <section id="quality-control-metrics">
-<h4>Quality Control Metrics<a class="headerlink" href="#quality-control-metrics" title="Permalink to this heading"></a></h4>
+<h3>Quality Control Metrics<a class="headerlink" href="#quality-control-metrics" title="Permalink to this heading"></a></h3>
 <p>fMRI + M2PRAGE
 <a class="reference external" href="https://mriqc.readthedocs.io/en/latest/measures.html">https://mriqc.readthedocs.io/en/latest/measures.html</a></p>
 <p>names appended with _t1w for MP2RAGE, _rest should be in most of these resting-state fMRI metric names in csv</p>
@@ -165,7 +163,7 @@ GlobalEfficiencyaal116scrub</p>
 </section>
 </section>
 <section id="preparing-your-dataset-for-sharing">
-<h3>Preparing your dataset for sharing<a class="headerlink" href="#preparing-your-dataset-for-sharing" title="Permalink to this heading"></a></h3>
+<h2>Preparing your dataset for sharing<a class="headerlink" href="#preparing-your-dataset-for-sharing" title="Permalink to this heading"></a></h2>
 <p>An optional script is included in this repository for running pydeface on your BIDS dataset.
 This facilitates sharing data on databanks by removing identifying facial features from each image.
 You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface when running the script:</p>
@@ -174,7 +172,7 @@ You must specify which image modalities (e.g. T1w, T2w, FLAIR, etc.) to deface w
 </div>
 </section>
 <section id="fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional">
-<h3>FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)<a class="headerlink" href="#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional" title="Permalink to this heading"></a></h3>
+<h2>FSL DTI probabilistic tractography from QSIPrep Preprocessing (Optional)<a class="headerlink" href="#fsl-dti-probabilistic-tractography-from-qsiprep-preprocessing-optional" title="Permalink to this heading"></a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt</p>
@@ -237,7 +235,7 @@ singularity run --cleanenv --bind <span class="si">${</span><span class="nv">IMA
 </div>
 </section>
 <section id="optional-html-quality-control-report-generator">
-<h3>(Optional) HTML Quality Control Report Generator<a class="headerlink" href="#optional-html-quality-control-report-generator" title="Permalink to this heading"></a></h3>
+<h2>(Optional) HTML Quality Control Report Generator<a class="headerlink" href="#optional-html-quality-control-report-generator" title="Permalink to this heading"></a></h2>
 <p>After running enough participant datasets through the pipeline, you can visualize quality control and network-based metrics using the  HTML QC Reports python tool developed by Nishant Bhamidipati and Paul Camacho <a class="reference external" href="https://github.com/mrfil/html-qc-reports">https://github.com/mrfil/html-qc-reports</a></p>
 <p>Use the pylearn.sif Singularity image to run QC_Reporter.py</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> ./singularity_images
@@ -246,7 +244,6 @@ git clone https://github.com/mrfil/html-qc-reports.git
 singularity <span class="nb">exec</span> -B /path/to/output/collect:/datain,./:/scripts pylearn.sif python3 /scripts/QC_Reporter.py
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 

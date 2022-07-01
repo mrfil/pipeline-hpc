@@ -1,8 +1,8 @@
 .. _Install :
 
--------
+*******
 Install
--------
+*******
 
 To get started with the pipeline, please install the following requirements: 
 

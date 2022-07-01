@@ -3,11 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to BIC 3T MRI Pipeline HPC's documentation!
-===================================================
+#######################################
+BIC 3T MRI Pipeline HPC's documentation
+#######################################
+Welcome to the `Beckman Institute`_ 3T MRI Pipeline documentation. This pipeline preprocesses brain imaging data, produces quality control metrics for your data, and conducts automated analysis for a variety of imaging modalities. It has been designed to run on high performance computing frameworks and packaged for easy installation. 
+
+.. _Beckman Institute: https://beckman.illinois.edu/ 
+
+.. image:: https://img.shields.io/readthedocs/pipeline-hpc/latest?style=plastic   :alt: Read the Docs (version)
+
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
    
    About

@@ -1,13 +1,8 @@
 .. _Troubleshooting :
 
----------------
+***************
 Troubleshooting
----------------
-
-
----------------
-Troubleshooting
----------------
+***************
 
 Container building
 ==================

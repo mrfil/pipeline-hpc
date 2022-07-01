@@ -1,5 +1,7 @@
 # pipeline-hpc: Pipeline for processing DICOMs to resting-state functional connectivity and structural connectivity matrices and basic network-based statistics via BIDS App Singularity containers on Bright 9 HPCs. Pre-release beta version.
 
+![Read the Docs (version)](https://img.shields.io/readthedocs/pipeline-hpc/latest?style=plastic)
+
 ## Requirements: 
 
 Singularity BIDS apps (HeuDiConv, MRIQC, fMRIPrep, xcpEngine, QSIprep) 

@@ -1,8 +1,8 @@
 .. _Sub-Pipelines :
 
--------------
+*************
 Sub-Pipelines
--------------
+*************
 
 The main pipeline consists of five sub-pipelines:
 
@@ -14,7 +14,7 @@ The main pipeline consists of five sub-pipelines:
 
 
 BIDS-App containers
-###################
+===================
 
 Examples of how to run each containerized BIDS-App used in our pipeline
 
@@ -35,7 +35,7 @@ scripts : The location of the pipeline scripts
     The above are all set via the pipeline script based on argument inputs from the shell command. 
 
 MRIQC - Anatomical & Functional Quality Control
-***********************************************
+-----------------------------------------------
 
 .. code-block:: bash
 
@@ -46,7 +46,7 @@ MRIQC - Anatomical & Functional Quality Control
     singularity run --cleanenv --bind ${IMAGEDIR}:/imgdir,${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},${stmpdir}:/paulscratch,${projDir}/bids:/data,${projDir}/bids/derivatives/mriqc:/out ${IMAGEDIR}/mriqc-0.16.1.sif /data /out participant --participant-label ${CLEANSUBJECT} --session-id ${CLEANSESSION} -v --no-sub
 
 fMRIPrep - Anatomical & Functional Preprocessing
-************************************************
+------------------------------------------------
 
 .. code-block:: bash
 
@@ -68,13 +68,13 @@ fMRIPrep - Anatomical & Functional Preprocessing
 
 
 XCPEngine - Correlation-based resting-state functional connectivity analysis
-****************************************************************************
+----------------------------------------------------------------------------
 
 Correlation-based resting-state functional connectivity analysis in multiple atlases.
 Amplitude of Low Frequency Fluctuations (ALFF) and regional homogeneity (REHO) also quantified for each parcellation
 
 Setup XCPEngine Workflow
-========================
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 You must first create your `cohort csv <https://xcpengine.readthedocs.io/config/cohort.html#functional-processing>`_ to specify image id tags and which images to ingress for processing. We create these as part of the pipeline with:
 
@@ -86,7 +86,7 @@ You will also need `design files <https://xcpengine.readthedocs.io/config/design
 
 
 Running XCPEngine Workflow
-==========================
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
    
@@ -102,7 +102,7 @@ Running XCPEngine Workflow
 A `more detailed tutorial <https://xcpengine.readthedocs.io/config/tutorial.html>`_ is available in the `XCPEngine documentation <https://xcpengine.readthedocs.io/index.html>`_
 
 QSIPrep - DWI preprocessing and reconstruction
-**********************************************
+----------------------------------------------
 
 Using the structural images and fieldmaps, we perform diffusion-weighted-image preprocessing and structural connectivity analysis in multiple atlases
 
@@ -175,14 +175,14 @@ NODDI via AMICO python implementation
 
 
 FSL DTI probabilistic tractography from QSIPrep Preprocessing 
-*************************************************************
+-------------------------------------------------------------
 
 .. note::
     Requires pre-existing FreeSurfer parcellation and FreeSurfer license.txt
 
 
 QSIPrep preprocessing reorient to FSL space:
-============================================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
@@ -196,7 +196,7 @@ QSIPrep preprocessing reorient to FSL space:
 
 
 CUDA 10.2-accelerated FDT pipeline
-==================================
+----------------------------------
 
 Usage: 
 
