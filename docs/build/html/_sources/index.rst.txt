@@ -10,16 +10,13 @@ Welcome to the `Beckman Institute`_ 3T MRI Pipeline documentation. This pipeline
 
 .. _Beckman Institute: https://beckman.illinois.edu/ 
 
-.. image:: https://img.shields.io/readthedocs/pipeline-hpc/latest?style=plastic :alt: Read the Docs (version)
-
 .. image:: https://img.shields.io/readthedocs/pipeline-hpc/latest
    :target: https://pipeline-hpc.readthedocs.io/en/latest
    :alt: Read the Docs (version)
 
-
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 1
+   :caption: Getting Started:
    
    About
    Usage
@@ -29,9 +26,16 @@ Welcome to the `Beckman Institute`_ 3T MRI Pipeline documentation. This pipeline
    Install
    FAQs
    Troubleshooting
-   Manual-Correction
-   Citing
+   Manual-Correction   
    Requests
+
+.. toctree::
+   :maxdepth: 1
+   :caption: How to Cite:
+   
+   Citing
+   Boilerplate
+
 
 Indices and tables
 ==================

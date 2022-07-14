@@ -9,9 +9,9 @@ To cite the BIC 3T pipeline, please include the following reference in your manu
 **Citation TK**
 
 
-Boilerplates
-============
-See our boilerplate generation page for creating documentation of your particular workflow.
+Writing Methods Sections
+========================
+See our :doc:`boilerplate generation page <Boilerplate>` for creating documentation of your particular workflow. We recommend using this text in the methods section of your manuscripts.
 
 Prior Work and Intellectual Contributions
 =========================================
