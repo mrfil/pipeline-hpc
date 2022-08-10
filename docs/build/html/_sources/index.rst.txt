@@ -26,7 +26,8 @@ Welcome to the `Beckman Institute`_ 3T MRI Pipeline documentation. This pipeline
    Install
    FAQs
    Troubleshooting
-   Manual-Correction   
+   Manual-Correction
+   Citing   
    Requests
 
 .. toctree::
