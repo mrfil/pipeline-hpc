@@ -1,4 +1,4 @@
-#BIC 3T MRI HPC Pipeline Documentation
+# BIC 3T MRI HPC Pipeline Documentation
 This is the documentation for the 3T MRI processing pipeline produced by creators at the Beckman Institute Imaging Center (BIC). The documenation is hosted on ReadtheDocs and you can view this documentation at [https://pipeline-hpc.readthedocs.io](https://pipeline-hpc.readthedocs.io/en/latest/ "BIC 3T Pipeline documentation")
 
 ## Viewing documentation offline
