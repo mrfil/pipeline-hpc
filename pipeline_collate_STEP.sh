@@ -56,7 +56,7 @@ if [[ -f "${qatoolsDir}/qatools-results.csv" ]];
 then
 	cp ${qatoolsDir}/qatools-results.csv ${outputDir}/${subject}_${session}_qatools-results.csv
 else
-	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv --bind ${projDir}/bids/derivatives:/datain,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt $IMAGEDIR/qatools-v1.2.sif --subjects_dir /datain/freesurfer --output_dir /datain/qatools/${subject} --subjects ${subject} --screenshots --screenshots-html --shape
+	SINGULARITY_CACHEDIR=$SINGCACHE SINGULARITY_TMPDIR=$SINGTMP singularity run --cleanenv --bind ${projDir}/bids/derivatives:/datain,${IMAGEDIR}/license.txt:/opt/freesurfer/license.txt $IMAGEDIR/qatools-v1.2.sif --subjects_dir /datain/fmriprep/sourcedata/freesurfer --output_dir /datain/qatools/${subject} --subjects ${subject} --screenshots --screenshots-html --shape
 	cp ${qatoolsDir}/qatools-results.csv ${outputDir}/${subject}_${session}_qatools-results.csv
 fi
 
