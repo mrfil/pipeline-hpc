@@ -127,18 +127,38 @@ else
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "HeuDiConv started $NOW" > ${scripts}/fulltimer.txt
+	
+ 	ses=${sesname:4}
+	sub=${subject:4}
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --bind ${projDir}:/datain $IMAGEDIR/heudiconv-0.9.0.sif heudiconv -d /datain/{subject}/{session}/scans/*/DICOM/*dcm -f /datain/${project}_heuristic.py -o /datain/bids/sourcedata -s ${sub} -ss ${ses} -c dcm2niix -b
+	chmod 777 -R ${projDir}/bids
+	rm -rf __pycache__
+
+	mkdir ${based}/dataqc/${project}
+
+	mkdir ${projDir}/bids/derivatives
 
 	cd ${projDir}
 
+	rm ${projDir}/bids/derivatives/mriqc
 	mkdir ${projDir}/bids/derivatives/mriqc
-	chmod 777 -R ${projDir}/bids/derivatives/mriqc
 
+ 	
 	TEMPLATEFLOW_HOST_HOME=$IMAGEDIR/templateflow
 	export SINGULARITYENV_TEMPLATEFLOW_HOME="/templateflow"
-	
-	mkdir ${projDir}/bids/sourcedata
-	cp ${projDir}/bids/*json ${projDir}/bids/sourcedata/
-	cp -R ${projDir}/bids/${subject} ${projDir}/bids/sourcedata/
+
+	cd $projDir
+	echo "Running mriqc"
+
+	NOW=$(date +"%m-%d-%Y-%T")
+	echo "$NOW" >> ${scripts}/timer.txt
+
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity run --cleanenv --bind ${projDir}/bids/sourcedata:/data --bind ${projDir}/bids/derivatives/mriqc:/out $IMAGEDIR/mriqc-0.16.0.sif /data /out participant --participant-label ${sub} --session-id ${ses} --fft-spikes-detector --despike --no-sub
+	chmod 2777 -R ${projDir}/bids/derivatives/mriqc/${subject}
+ 
+	NOW=$(date +"%m-%d-%Y-%T")
+	echo "$NOW" >> ${scripts}/timer.txt
+	cd ${projDir}
 
 	NOW=$(date +"%m-%d-%Y-%T")
 	echo "fMRIPrep started $NOW" >> ${scripts}/fulltimer.txt
@@ -150,7 +170,7 @@ else
 	${scripts}/project_doc.sh ${project} ${subject} ${sesname} "fmriprep" "no"
 	if [ "${longitudinal}" == "yes" ];
 	then 
-	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-v22.0.1.sif fmriprep /datain/bids /datain/bids/derivatives participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
+	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-v22.0.1.sif fmriprep /datain/bids /datain/bids/derivatives/fmriprep participant --participant-label ${subject} --longitudinal --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
 	elif [ "${longitudinal}" == "no" ];
 	then
 	SINGULARITY_CACHEDIR=$CACHESING SINGULARITY_TMPDIR=$TMPSING singularity exec --cleanenv --bind ${TEMPLATEFLOW_HOST_HOME}:${SINGULARITYENV_TEMPLATEFLOW_HOME},$IMAGEDIR/license.txt:/opt/freesurfer/license.txt,$TMPSING:/paulscratch,${projDir}:/datain $IMAGEDIR/fmriprep-v22.0.1.sif fmriprep /datain/bids /datain/bids/derivatives/fmriprep participant --participant-label ${subject} --output-spaces {MNI152NLin2009cAsym,T1w,fsnative} --use-aroma -w /paulscratch --fs-license-file /opt/freesurfer/license.txt
